@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
     Spinner expendType;
     Button bntAddExpend;
     DatabaseReference userExpend;
-    Button getData;
 
 
     @Override
@@ -131,6 +130,8 @@ public class MainActivity extends AppCompatActivity {
         userExpend.push().setValue(expend).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(MainActivity.this, "Record added successfully", Toast.LENGTH_SHORT).show();
+
+                Log.e("Add", "Added", task.getException());
 
                 expendDate.setText("");
                 expendName.setText("");
