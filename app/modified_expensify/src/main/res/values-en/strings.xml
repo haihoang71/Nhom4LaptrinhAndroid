@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Custom Expensify</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="hint_date">Date</string>
+    <string name="click_to_login">Click to Login</string>
+    <string name="click_to_register">Click to Register</string>
+    <string name="hint_expense_name">Description</string>
+    <string name="hint_expense_amount">Amount</string>
+    <string name="label_expense_paid">Paid</string>
+    <string name="button_add_expense">Add</string>
+    <string-array name="expense_categories">
+        <item>Food</item>
+        <item>Transport</item>
+        <item>Shopping</item>
+        <item>Entertainment</item>
+        <item>Other</item>
+    </string-array>
+    <string name="logout">Logout</string>
+    <string name="title_activity_login">Login</string>
+</resources>
