@@ -1,12 +1,17 @@
 package com.example.modified_expensify;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +27,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
 
     FirebaseAuth auth;
@@ -30,10 +39,14 @@ public class MainActivity extends AppCompatActivity {
     TextView textView;
     FirebaseUser user;
 
-    EditText expendDate, expendName, expendAmount;
+    EditText expendName, expendAmount;
+    TextView expendDate;
     Spinner expendType;
+    Spinner expendCategory;
     Button bntAddExpend;
+    ImageButton bntCalendar;
     DatabaseReference userExpend;
+    private Map<String, List<String>> categoryMap;
 
 
     @Override
@@ -79,8 +92,10 @@ public class MainActivity extends AppCompatActivity {
         expendDate = findViewById(R.id.editTextDate);
         expendName = findViewById(R.id.editTextExpenseName);
         expendAmount = findViewById(R.id.editTextExpenseAmount);
-        expendType = findViewById(R.id.spinnerExpenseCategory);
+        expendType = findViewById(R.id.spinnerExpenseType);
+        expendCategory = findViewById(R.id.spinnerExpenseCategory);
         bntAddExpend = findViewById(R.id.buttonAddExpense);
+        bntCalendar = findViewById(R.id.bntCalendar);
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user != null) {
@@ -90,6 +105,48 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "User not authenticated!", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        bntCalendar.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                openDialog();
+            }
+        });
+
+        ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.expense_types,
+                android.R.layout.simple_spinner_item
+        );
+        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        expendType.setAdapter(typeAdapter);
+
+        expendType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                int arrayId;
+
+                String selectedType = expendType.getSelectedItem().toString();
+
+                if (position == 1) {
+                    arrayId = R.array.expend_categories;
+                } else {
+                    arrayId = R.array.income_categories;
+                }
+
+                ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(
+                        MainActivity.this,
+                        arrayId,
+                        android.R.layout.simple_spinner_item
+                );
+                categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                expendCategory.setAdapter(categoryAdapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
         bntAddExpend.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -111,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
         String name = expendName.getText().toString();
         String type = expendType.getSelectedItem() != null ? expendType.getSelectedItem().toString() : "Unknown";
         String amountText = expendAmount.getText().toString();
+        String category = expendCategory.getSelectedItem() != null ? expendCategory.getSelectedItem().toString() : "Unknown";
         float amount;
 
         try {
@@ -125,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        Expend expend = new Expend(date, name, amount, type);
+        Expend expend = new Expend(date, name, amount, type, category);
 
         userExpend.push().setValue(expend).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -137,10 +195,21 @@ public class MainActivity extends AppCompatActivity {
                 expendName.setText("");
                 expendAmount.setText("");
                 expendType.setSelection(0);
+                expendCategory.setSelection(0);
             } else {
                 Toast.makeText(MainActivity.this, "Failed to add record: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                 Log.e("FirebaseError", "Failed to add record", task.getException());
             }
         });
+    }
+    private void openDialog(){
+        DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                expendDate.setText(String.valueOf(day)+"/"+String.valueOf(month)+"/"+String.valueOf(year));
+            }
+        }, 2025, 1, 1);
+        dialog.show();
+
     }
 }

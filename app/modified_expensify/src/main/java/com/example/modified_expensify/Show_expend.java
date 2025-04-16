@@ -72,7 +72,7 @@ public class Show_expend extends AppCompatActivity {
                     .getReference("Users")
                     .child(userId)
                     .child("Expenses");
-            //loadDataFromFirebase();
+            // load data, co 2 func de load tu sqlite va firebase
             loadExpenses();
         } else {
             Toast.makeText(this, "User not logged in!", Toast.LENGTH_SHORT).show();
@@ -162,6 +162,7 @@ public class Show_expend extends AppCompatActivity {
             TextView tvName = convertView.findViewById(R.id.tvName);
             TextView tvAmount = convertView.findViewById(R.id.tvAmount);
             TextView tvType = convertView.findViewById(R.id.tvType);
+            TextView tvCategory = convertView.findViewById(R.id.tvCategory);
             Button bntDelete = convertView.findViewById(R.id.bntDelete);
 
             Expend expend = getItem(position);
@@ -172,6 +173,7 @@ public class Show_expend extends AppCompatActivity {
             tvName.setText(expend.getName());
             tvAmount.setText(String.valueOf(expend.getAmount()));
             tvType.setText(expend.getType());
+            tvCategory.setText(expend.getCategory());
 
             // Thiết lập sự kiện cho nút xóa
             bntDelete.setOnClickListener(view -> {

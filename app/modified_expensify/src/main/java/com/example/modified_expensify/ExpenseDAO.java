@@ -34,6 +34,7 @@ public class ExpenseDAO {
         values.put(DBHelper.COLUMN_NAME, expense.getName());
         values.put(DBHelper.COLUMN_AMOUNT, expense.getAmount());
         values.put(DBHelper.COLUMN_TYPE, expense.getType());
+        values.put(DBHelper.COLUMN_CATEGORY, expense.getCategory());
         values.put(DBHelper.COLUMN_SYNC_STATUS, syncStatus);
 
         return database.insert(DBHelper.TABLE_EXPENSES, null, values);
@@ -46,6 +47,7 @@ public class ExpenseDAO {
         values.put(DBHelper.COLUMN_NAME, expense.getName());
         values.put(DBHelper.COLUMN_AMOUNT, expense.getAmount());
         values.put(DBHelper.COLUMN_TYPE, expense.getType());
+        values.put(DBHelper.COLUMN_CATEGORY, expense.getCategory());
         values.put(DBHelper.COLUMN_SYNC_STATUS, syncStatus);
 
         return database.update(DBHelper.TABLE_EXPENSES,
@@ -88,8 +90,9 @@ public class ExpenseDAO {
                 String name = cursor.getString(cursor.getColumnIndexOrThrow(DBHelper.COLUMN_NAME));
                 float amount = cursor.getFloat(cursor.getColumnIndexOrThrow(DBHelper.COLUMN_AMOUNT));
                 String type = cursor.getString(cursor.getColumnIndexOrThrow(DBHelper.COLUMN_TYPE));
+                String category = cursor.getString(cursor.getColumnIndexOrThrow(DBHelper.COLUMN_CATEGORY));
 
-                Expend expense = new Expend(date, name, amount, type);
+                Expend expense = new Expend(date, name, amount, type, category);
                 expense.setId(firebaseId);
                 expenses.add(expense);
             } while (cursor.moveToNext());
@@ -115,9 +118,10 @@ public class ExpenseDAO {
                 String name = cursor.getString(cursor.getColumnIndexOrThrow(DBHelper.COLUMN_NAME));
                 float amount = cursor.getFloat(cursor.getColumnIndexOrThrow(DBHelper.COLUMN_AMOUNT));
                 String type = cursor.getString(cursor.getColumnIndexOrThrow(DBHelper.COLUMN_TYPE));
+                String category = cursor.getString(cursor.getColumnIndexOrThrow(DBHelper.COLUMN_CATEGORY));
                 int syncStatus = cursor.getInt(cursor.getColumnIndexOrThrow(DBHelper.COLUMN_SYNC_STATUS));
 
-                Expend expense = new Expend(date, name, amount, type);
+                Expend expense = new Expend(date, name, amount, type, category);
                 expense.setId(firebaseId);
                 // Thêm thông tin trạng thái đồng bộ để xử lý sau
                 expense.setSyncStatus(syncStatus);

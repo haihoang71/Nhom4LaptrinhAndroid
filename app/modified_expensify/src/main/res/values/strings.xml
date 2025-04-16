@@ -1,24 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Quản lý Chi tiêu</string>
-    <string name="login">Đăng nhâp</string>
+    <string name="app_name">Expense Manager</string>
+    <string name="login">Login</string>
     <string name="email">Email</string>
-    <string name="password">Mật khẩu</string>
-    <string name="register">Đăng ký</string>
-    <string name="hint_date">Ngày</string>
-    <string name="click_to_login">Đăng nhập</string>
-    <string name="click_to_register">Đăng ký</string>
-    <string name="hint_expense_name">Nội dung</string>
-    <string name="hint_expense_amount">Số tiền</string>
-    <string name="label_expense_paid">Đã trả</string>
-    <string name="button_add_expense">Thêm</string>
-    <string-array name="expense_categories">
-        <item>Ăn uống</item>
-        <item>Di chuyển</item>
-        <item>Mua sắm</item>
-        <item>Giải trí</item>
-        <item>Khác</item>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="hint_date">Date</string>
+    <string name="click_to_login">Click to login</string>
+    <string name="click_to_register">Click to register</string>
+    <string name="hint_expense_name">Description</string>
+    <string name="hint_expense_amount">Amount</string>
+    <string name="label_expense_paid">Paid</string>
+    <string name="button_add_expense">Add</string>
+    <string name="expend">Expense</string>
+    <string name="income">Income</string>
+    <string-array name="expense_types">
+        <item>Income</item>
+        <item>Expense</item>
     </string-array>
-    <string name="logout">Đăng xuất</string>
+    <string-array name="income_categories">
+        <item>Salary</item>
+        <item>Bonus</item>
+        <item>Investment</item>
+        <item>Side Income</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="expend_categories">
+        <item>Food</item>
+        <item>Transport</item>
+        <item>Shopping</item>
+        <item>Entertainment</item>
+        <item>Bills</item>
+        <item>Other</item>
+    </string-array>
+    <string name="logout">Logout</string>
     <string name="title_activity_login">Login</string>
 </resources>

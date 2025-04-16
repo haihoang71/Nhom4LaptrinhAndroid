@@ -17,19 +17,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="12dp"
         android:layout_marginRight="16dp">
 
-        <EditText
+        <TextView
             android:id="@+id/editTextDate"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:layout_weight="1"
-            android:ems="10"
-            android:hint="@string/hint_date"
-            android:inputType="date" />
+            android:ems="14"
+            android:hint="@string/hint_date"/>
 
         <ImageButton
+            android:id="@+id/bntCalendar"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
@@ -42,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
         android:hint="@string/hint_expense_name" />
 
@@ -51,12 +52,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
         android:hint="@string/hint_expense_amount"
         android:inputType="numberDecimal" />
 
-    <FrameLayout
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -65,24 +67,28 @@
         android:orientation="horizontal">
 
         <Spinner
-            android:id="@+id/spinnerExpenseCategory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:entries="@array/expense_categories" />
+            android:id="@+id/spinnerExpenseType"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:entries="@array/expense_types"/>
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switchExpensePaid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/label_expense_paid" />
-    </FrameLayout>
+        <Spinner
+            android:id="@+id/spinnerExpenseCategory"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"/>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/buttonAddExpense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
         android:text="@string/button_add_expense" />
 

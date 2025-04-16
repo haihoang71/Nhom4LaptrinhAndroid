@@ -10,22 +10,25 @@ public class Expend implements Serializable {
     private String id;
     private int syncStatus;
     private int localId;
+    private String category;
 
     public Expend(){
 
     }
-    public Expend(String date, String name, float amount, String type) {
+    public Expend(String date, String name, float amount, String type, String category) {
         this.date = date;
         this.name = name;
         this.amount = amount;
         this.type = type;
+        this.category = category;
     }
-    public Expend(String id, String date, String name, float amount, String type) {
+    public Expend(String id, String date, String name, float amount, String type, String category) {
         this.id = id;
         this.date = date;
         this.name = name;
         this.amount = amount;
         this.type = type;
+        this.category = category;
     }
     public String getDate() {
         return date;
@@ -38,6 +41,9 @@ public class Expend implements Serializable {
     }
     public String getType() {
         return type;
+    }
+    public String getCategory() {
+        return category;
     }
     public String getId() {
         return id;

@@ -12,12 +12,26 @@
     <string name="hint_expense_amount">Amount</string>
     <string name="label_expense_paid">Paid</string>
     <string name="button_add_expense">Add</string>
-    <string-array name="expense_categories">
-        <item>Food</item>
-        <item>Transport</item>
-        <item>Shopping</item>
-        <item>Entertainment</item>
-        <item>Other</item>
+    <string name="expend">Chi tiêu</string>
+    <string name="income">Thu nhập</string>
+    <string-array name="expense_types">
+        <item>Thu nhập</item>
+        <item>Chi tiêu</item>
+    </string-array>
+    <string-array name="income_categories">
+        <item>Tiền lương</item>
+        <item>Tiền thưởng</item>
+        <item>Lãi đầu tư</item>
+        <item>Thu nhập phụ</item>
+        <item>Khác</item>
+    </string-array>
+    <string-array name="expend_categories">
+        <item>Ăn uống</item>
+        <item>Di chuyển</item>
+        <item>Mua sắm</item>
+        <item>Giải trí</item>
+        <item>Hóa đơn</item>
+        <item>Khác</item>
     </string-array>
     <string name="logout">Logout</string>
     <string name="title_activity_login">Login</string>

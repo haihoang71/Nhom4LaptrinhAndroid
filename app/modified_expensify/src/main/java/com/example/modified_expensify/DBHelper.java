@@ -16,6 +16,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_AMOUNT = "amount";
     public static final String COLUMN_TYPE = "type";
+    public static final String COLUMN_CATEGORY = "category";
     public static final String COLUMN_SYNC_STATUS = "sync_status";
 
     // Trạng thái đồng bộ
@@ -32,6 +33,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     COLUMN_NAME + " TEXT," +
                     COLUMN_AMOUNT + " REAL," +
                     COLUMN_TYPE + " TEXT," +
+                    COLUMN_CATEGORY + " TEXT," +
                     COLUMN_SYNC_STATUS + " INTEGER DEFAULT " + SYNC_STATUS_NEW + ")";
 
     public DBHelper(Context context) {

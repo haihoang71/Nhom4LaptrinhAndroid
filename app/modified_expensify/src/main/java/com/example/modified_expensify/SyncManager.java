@@ -128,6 +128,7 @@ public class SyncManager {
         expenseValues.put("name", expense.getName());
         expenseValues.put("amount", expense.getAmount());
         expenseValues.put("type", expense.getType());
+        expenseValues.put("category", expense.getCategory());
 
         newRef.setValue(expenseValues).addOnCompleteListener(task -> {
             expenseDAO.open();
@@ -154,6 +155,7 @@ public class SyncManager {
         expenseValues.put("name", expense.getName());
         expenseValues.put("amount", expense.getAmount());
         expenseValues.put("type", expense.getType());
+        expenseValues.put("category", expense.getCategory());
 
         expenseDbRef.child(firebaseId).updateChildren(expenseValues).addOnCompleteListener(task -> {
             expenseDAO.open();
