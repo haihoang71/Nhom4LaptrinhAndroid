@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "expenses.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public static final String TABLE_EXPENSES = "expenses";
     public static final String COLUMN_ID = "id";
@@ -36,6 +36,17 @@ public class DBHelper extends SQLiteOpenHelper {
                     COLUMN_CATEGORY + " TEXT," +
                     COLUMN_SYNC_STATUS + " INTEGER DEFAULT " + SYNC_STATUS_NEW + ")";
 
+    public static final String TABLE_PROFILE = "user_profile";
+    public static final String COLUMN_USER_ID = "user_id";
+    public static final String COLUMN_USER_NAME = "user_name";
+    public static final String COLUMN_BIRDTH_DATE = "birth_date";
+    public static final String COLUMN_AVATAR = "avatar";
+    private static final String SQL_CREATE_PROFILE =
+            "CREATE TABLE " + TABLE_PROFILE + " (" +
+                    COLUMN_USER_ID + " TEXT," +
+                    COLUMN_USER_NAME + " TEXT," +
+                    COLUMN_BIRDTH_DATE + " TEXT," +
+                    COLUMN_AVATAR + " TEXT)";
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -43,12 +54,14 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_EXPENSES);
+        db.execSQL(SQL_CREATE_PROFILE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXPENSES);
-        onCreate(db);
+       if (oldVersion < 2){
+           db.execSQL(SQL_CREATE_PROFILE);
+       }
     }
 }
 

@@ -1,9 +1,12 @@
 package com.example.modified_expensify;
 
+import static android.Manifest.permission.READ_MEDIA_IMAGES;
+
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         loadLocale();
+
 
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
@@ -147,6 +151,11 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
     }
 
 
