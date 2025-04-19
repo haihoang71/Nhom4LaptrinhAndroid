@@ -1,244 +1,71 @@
 package com.example.modified_expensify;
 
-import static android.Manifest.permission.READ_MEDIA_IMAGES;
-
-import android.app.DatePickerDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
-import android.view.Menu;
-import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
-    FirebaseAuth auth;
-    Button bntGetData;
-    FirebaseUser user;
-
-    EditText expendName, expendAmount;
-    TextView expendDate;
-    Spinner expendType;
-    Spinner expendCategory;
-    Button bntAddExpend;
-    ImageButton bntCalendar;
-    DatabaseReference userExpend;
-    private Map<String, List<String>> categoryMap;
-
+    private ViewPager2 viewPager;
+    private BottomNavigationView bottomNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        loadLocale();
-        ThemeHelper.applySavedTheme(this);
-
-
+        ThemeHelper.applySavedTheme(this); // nếu có
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        // Logout button
-        auth = FirebaseAuth.getInstance();
-        bntGetData = findViewById(R.id.btnRetreiveData);
-        user = auth.getCurrentUser();
+        viewPager = findViewById(R.id.viewPager);
+        bottomNav = findViewById(R.id.bottomNav);
 
+        setupViewPager();
 
-        bntGetData.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                Intent intent = new Intent(MainActivity.this,Show_expend.class);
-                startActivity(intent);
-            }
-        });
+        bottomNav.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
 
-        // Adding expend
-        expendDate = findViewById(R.id.editTextDate);
-        expendName = findViewById(R.id.editTextExpenseName);
-        expendAmount = findViewById(R.id.editTextExpenseAmount);
-        expendType = findViewById(R.id.spinnerExpenseType);
-        expendCategory = findViewById(R.id.spinnerExpenseCategory);
-        bntAddExpend = findViewById(R.id.buttonAddExpense);
-        bntCalendar = findViewById(R.id.bntCalendar);
-        user = FirebaseAuth.getInstance().getCurrentUser();
-
-        if (user != null) {
-            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            userExpend = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("Expenses");
-        } else {
-            Toast.makeText(this, "User not authenticated!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        bntCalendar.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                openDialog();
-            }
-        });
-
-        ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(
-                this,
-                R.array.expense_types,
-                android.R.layout.simple_spinner_item
-        );
-        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        expendType.setAdapter(typeAdapter);
-
-        expendType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                int arrayId;
-
-                String selectedType = expendType.getSelectedItem().toString();
-
-                if (position == 1) {
-                    arrayId = R.array.expend_categories;
-                } else {
-                    arrayId = R.array.income_categories;
-                }
-
-                ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(
-                        MainActivity.this,
-                        arrayId,
-                        android.R.layout.simple_spinner_item
-                );
-                categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                expendCategory.setAdapter(categoryAdapter);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-
-        bntAddExpend.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                insertExpendData();
-            }
-        });
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-    }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-    }
-
-
-    private void insertExpendData(){
-        String date = expendDate.getText().toString();
-        String name = expendName.getText().toString();
-        String type = expendType.getSelectedItem() != null ? expendType.getSelectedItem().toString() : "Unknown";
-        String amountText = expendAmount.getText().toString();
-        String category = expendCategory.getSelectedItem() != null ? expendCategory.getSelectedItem().toString() : "Unknown";
-        float amount;
-
-        try {
-            amount = Float.parseFloat(amountText);
-        } catch (NumberFormatException e) {
-            Toast.makeText(MainActivity.this, "Invalid amount!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (user == null || userExpend == null) {
-            Toast.makeText(MainActivity.this, "User not authenticated or Database reference error!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        Expend expend = new Expend(date, name, amount, type, category);
-
-        userExpend.push().setValue(expend).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Toast.makeText(MainActivity.this, "Record added successfully", Toast.LENGTH_SHORT).show();
-
-                Log.e("Add", "Added", task.getException());
-
-                expendDate.setText("");
-                expendName.setText("");
-                expendAmount.setText("");
-                expendType.setSelection(0);
-                expendCategory.setSelection(0);
+            if (itemId == R.id.navigation_home) {
+                viewPager.setCurrentItem(0);
+                return true;
+            } else if (itemId == R.id.navigation_expenses) {
+                viewPager.setCurrentItem(1);
+                return true;
+            } else if (itemId == R.id.navigation_analysis) {
+                viewPager.setCurrentItem(2);
+                return true;
+            } else if (itemId == R.id.navigation_settings) {
+                viewPager.setCurrentItem(3);
+                return true;
             } else {
-                Toast.makeText(MainActivity.this, "Failed to add record: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                Log.e("FirebaseError", "Failed to add record", task.getException());
+                return false;
+            }
+        });
+
+        // Đồng bộ khi vuốt
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                bottomNav.getMenu().getItem(position).setChecked(true);
             }
         });
     }
-    private void openDialog(){
-        DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                expendDate.setText(String.valueOf(day)+"/"+String.valueOf(month)+"/"+String.valueOf(year));
-            }
-        }, 2025, 1, 1);
-        dialog.show();
 
-    }
-
-    // code mở main menu
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_settings) {
-            SettingsDialogFragment settingsDialog = new SettingsDialogFragment();
-            settingsDialog.show(getSupportFragmentManager(), "SettingsDialog");
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    // set language
-    private void loadLocale() {
-        SharedPreferences prefs = getSharedPreferences("Settings", MODE_PRIVATE);
-        String langCode = prefs.getString("My_Lang", "vi"); // mặc định là tiếng Việt
-        applyLocale(langCode);
-    }
-
-    private void applyLocale(String langCode) {
-        Locale locale = new Locale(langCode);
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.setLocale(locale);
-        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+    private void setupViewPager() {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(this);
+        adapter.addFragment(new MainFragment());
+        adapter.addFragment(new ShowExpendFragment());
+        adapter.addFragment(new AnalysisFragment());
+        adapter.addFragment(new SettingsFragment());
+        viewPager.setAdapter(adapter);
     }
 }
