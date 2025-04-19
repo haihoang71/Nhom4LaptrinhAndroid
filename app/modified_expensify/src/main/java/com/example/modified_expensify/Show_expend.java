@@ -46,6 +46,8 @@ public class Show_expend extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
+        ThemeHelper.applySavedTheme(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_expend);
 

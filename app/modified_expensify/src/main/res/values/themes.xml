@@ -1,9 +1,61 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Modified_expensify" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Theme.EditTexts" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorSecondaryVariant">@color/colorPrimaryDark</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="1">?attr/colorPrimaryVariant</item>
+
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="Theme.Nhom4_LapTrinhAndroid" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorSecondaryVariant">@color/colorPrimaryDark</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="1">?attr/colorPrimaryVariant</item>
+
+        <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.Modified_expensify" parent="Base.Theme.Modified_expensify" />
+
+    <style name="DynamicTheme1" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/theme1ColorPrimary</item>
+        <item name="colorPrimaryDark">@color/theme1ColorPrimaryDark</item>
+        <item name="colorSecondary">@color/theme1ColorSecondary</item>
+    </style>
+
+    <style name="DynamicTheme2" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/theme2ColorPrimary</item>
+        <item name="colorPrimaryDark">@color/theme2ColorPrimaryDark</item>
+        <item name="colorSecondary">@color/theme2ColorSecondary</item>
+    </style>
+
+    <style name="DynamicTheme3" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/theme3ColorPrimary</item>
+        <item name="colorPrimaryDark">@color/theme3ColorPrimaryDark</item>
+        <item name="colorSecondary">@color/theme3ColorSecondary</item>
+    </style>
+
+    <style name="DynamicTheme4" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/theme4ColorPrimary</item>
+        <item name="colorPrimaryDark">@color/theme4ColorPrimaryDark</item>
+        <item name="colorSecondary">@color/theme4ColorSecondary</item>
+    </style>
+
 </resources>

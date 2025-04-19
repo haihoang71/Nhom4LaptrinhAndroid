@@ -26,6 +26,7 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
+
         <Button
             android:id="@+id/bntEditProfile"
             android:layout_width="match_parent"
@@ -33,6 +34,12 @@
             android:layout_marginTop="16dp"
             android:text="Chỉnh sửa thông tin" />
 
+        <Button
+            android:id="@+id/bntEditThemeColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Đổi màu" />
 
         <Button
             android:id="@+id/btnChangeLanguage"

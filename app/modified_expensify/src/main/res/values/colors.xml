@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimary">#FF018786</color>
+    <color name="colorPrimaryDark">#00796B</color>
+    <color name="colorSecondary">#FFBB86FC</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="theme1ColorPrimary">#EF6C00</color>
+    <color name="theme1ColorPrimaryDark">#E65100</color>
+    <color name="theme1ColorSecondary">#0277BD</color>
+
+    <color name="theme2ColorPrimary">#00695C</color>
+    <color name="theme2ColorPrimaryDark">#004D40</color>
+    <color name="theme2ColorSecondary">#0097A7</color>
+
+    <color name="theme3ColorPrimary">#AD1457</color>
+    <color name="theme3ColorPrimaryDark">#880E4F</color>
+    <color name="theme3ColorSecondary">#7986CB</color>
+
+    <color name="theme4ColorPrimary">#1565C0</color>
+    <color name="theme4ColorPrimaryDark">#0D47A1</color>
+    <color name="theme4ColorSecondary">#C62828</color>
 </resources>

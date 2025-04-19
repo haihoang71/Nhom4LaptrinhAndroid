@@ -1,5 +1,7 @@
 package com.example.modified_expensify;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -50,6 +52,7 @@ public class SettingsDialogFragment extends DialogFragment {
 
         Button btnLogout = view.findViewById(R.id.btnLogout);
         Button btnLanguage = view.findViewById(R.id.btnChangeLanguage);
+        Button bntEditThemeColor = view.findViewById(R.id.bntEditThemeColor);
         FirebaseUser user;
         FirebaseAuth auth;
 
@@ -67,6 +70,10 @@ public class SettingsDialogFragment extends DialogFragment {
             Intent intent = new Intent(getContext(), ProfileEditActivity.class);
             startActivity(intent);
             dismiss();
+        });
+
+        bntEditThemeColor.setOnClickListener(v -> {
+            showThemeDialog();
         });
 
         btnLanguage.setOnClickListener(v -> {
@@ -136,8 +143,29 @@ public class SettingsDialogFragment extends DialogFragment {
                 }).show();
     }
 
+    private void showThemeDialog() {
+        String[] themes = {"Giao diện Xanh Biển", "Giao diện Xanh Lá", "Giao diện Tím", "Giao diện Cam"};
+        String[] THEME_KEYS = {"DynamicTheme1", "DynamicTheme2", "DynamicTheme3", "DynamicTheme4"};
+
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Chọn giao diện")
+                .setItems(themes, (dialog, which) -> {
+                    String selectedTheme = THEME_KEYS[which];
+
+                    SharedPreferences prefs = requireContext().getSharedPreferences("AppThemePrefs", Context.MODE_PRIVATE);
+                    prefs.edit().putString("selected_theme", selectedTheme).apply();
+
+                    Intent intent = new Intent(requireContext(), MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    requireActivity().finish();
+                })
+                .setNegativeButton("Hủy", null)
+                .show();
+    }
+
     private void setLocale(String langCode) {
-        SharedPreferences prefs = requireActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        SharedPreferences prefs = requireActivity().getSharedPreferences("Settings", MODE_PRIVATE);
         prefs.edit().putString("My_Lang", langCode).apply();
 
         Locale locale = new Locale(langCode);
@@ -162,8 +190,8 @@ public class SettingsDialogFragment extends DialogFragment {
                     ViewGroup.LayoutParams.MATCH_PARENT);
             window.setGravity(Gravity.END);
             window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            window.setDimAmount(0.4f); // làm mờ nền
-            window.setWindowAnimations(R.style.DialogSlideAnimation); // hiệu ứng trượt
+            window.setDimAmount(0.4f);
+            window.setWindowAnimations(R.style.DialogSlideAnimation);
         }
     }
 }

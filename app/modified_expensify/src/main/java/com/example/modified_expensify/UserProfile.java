@@ -18,7 +18,6 @@ public class UserProfile {
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
-
     public String getBirthDate() {
         return birthDate;
     }
@@ -32,5 +31,4 @@ public class UserProfile {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
-
 }

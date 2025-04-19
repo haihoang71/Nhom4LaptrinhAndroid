@@ -265,7 +265,7 @@ public class ProfileDAO {
         String email = currentUser.getEmail();
         String defaultName = email != null ? email.split("@")[0] : "User";
         String defaultBirthDate = "";
-        String defaultAvatar = "default_avatar"; // Tên file ảnh mặc định trong drawable
+        String defaultAvatar = "default_avatar";
 
         return new UserProfile(userId, defaultName, defaultBirthDate, defaultAvatar);
     }

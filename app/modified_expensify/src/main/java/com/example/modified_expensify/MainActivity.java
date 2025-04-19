@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         loadLocale();
+        ThemeHelper.applySavedTheme(this);
 
 
         super.onCreate(savedInstanceState);

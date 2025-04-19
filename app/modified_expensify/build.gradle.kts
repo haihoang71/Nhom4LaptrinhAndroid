@@ -37,6 +37,8 @@ dependencies {
     implementation("com.google.firebase:firebase-database:20.3.0")
     implementation("com.google.firebase:firebase-auth:xx.x.x")
     implementation("de.hdodenhof:circleimageview:3.1.")
+    implementation("androidx.viewpager2:viewpager2:1.0.0-alpha01")
+    implementation("com.google.android.material:material:1.8.0")
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
