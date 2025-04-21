@@ -18,14 +18,11 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.Calendar;
 
-import androidx.activity.EdgeToEdge;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -64,7 +61,7 @@ public class MainFragment extends Fragment {
     private FirebaseAuth auth;
     private FirebaseUser user;
     private DatabaseReference userExpend;
-
+    private String userId;
     private EditText expendName, expendAmount;
     private TextView expendDate;
     private Spinner expendType, expendCategory;
@@ -95,7 +92,7 @@ public class MainFragment extends Fragment {
         bntCalendar = view.findViewById(R.id.bntCalendar);;
 
         if (user != null) {
-            String userId = user.getUid();
+            userId = user.getUid();
             userExpend = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("Expenses");
         } else {
             Toast.makeText(getContext(), "User not authenticated!", Toast.LENGTH_SHORT).show();
@@ -142,35 +139,31 @@ public class MainFragment extends Fragment {
         String category = expendCategory.getSelectedItem() != null ? expendCategory.getSelectedItem().toString() : "Unknown";
         float amount;
 
-        try {
-            amount = Float.parseFloat(amountText);
-        } catch (NumberFormatException e) {
-            Toast.makeText(getContext(), "Invalid amount!", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        amount = Float.parseFloat(amountText);
 
-        Expend expend = new Expend(date, name, amount, type, category);
 
-        userExpend.push().setValue(expend).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Toast.makeText(getContext(), "Thêm thành công", Toast.LENGTH_SHORT).show();
+        Expend expend = new Expend(date, name, amount, type, category, userId);
 
-                expendDate.setText("");
-                expendName.setText("");
-                expendAmount.setText("");
-                expendType.setSelection(0);
-                expendCategory.setSelection(0);
-            } else {
-                Toast.makeText(getContext(), "Lỗi: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                Log.e("FirebaseError", "Failed to add record", task.getException());
-            }
-        });
+        SyncManager syncManager = new SyncManager(requireContext());
+        syncManager.addExpense(expend);
+
+        expendDate.setText("");
+        expendName.setText("");
+        expendAmount.setText("");
+        expendType.setSelection(0);
+        expendCategory.setSelection(0);
     }
 
     private void openDialog() {
+        Calendar today = Calendar.getInstance();
+
+        int todayYear = today.get(Calendar.YEAR);
+        int todayMonth = today.get(Calendar.MONTH);
+        int todayDay = today.get(Calendar.DAY_OF_MONTH);
+
         DatePickerDialog dialog = new DatePickerDialog(getContext(), (view, year, month, dayOfMonth) -> {
             expendDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
-        }, 2025, 0, 1);
+        }, todayYear, todayMonth, todayDay);
         dialog.show();
     }
 

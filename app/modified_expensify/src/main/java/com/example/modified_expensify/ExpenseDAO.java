@@ -5,6 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +15,10 @@ public class ExpenseDAO {
     private SQLiteDatabase database;
     private DBHelper dbHelper;
     private Context context;
+
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    FirebaseUser user = auth.getCurrentUser();
+    String userId = user.getUid();
 
     public ExpenseDAO(Context context) {
         this.context = context;
@@ -26,9 +33,9 @@ public class ExpenseDAO {
         dbHelper.close();
     }
 
-    // Thêm chi tiêu mới vào SQLite
     public long addExpense(Expend expense, String firebaseId, int syncStatus) {
         ContentValues values = new ContentValues();
+        values.put(DBHelper.COLUMN_EXPEND_USER_ID, userId);
         values.put(DBHelper.COLUMN_FIREBASE_ID, firebaseId);
         values.put(DBHelper.COLUMN_DATE, expense.getDate());
         values.put(DBHelper.COLUMN_NAME, expense.getName());
@@ -40,9 +47,9 @@ public class ExpenseDAO {
         return database.insert(DBHelper.TABLE_EXPENSES, null, values);
     }
 
-    // Cập nhật chi tiêu trong SQLite
     public int updateExpense(Expend expense, String firebaseId, int syncStatus) {
         ContentValues values = new ContentValues();
+        values.put(DBHelper.COLUMN_EXPEND_USER_ID, userId);
         values.put(DBHelper.COLUMN_DATE, expense.getDate());
         values.put(DBHelper.COLUMN_NAME, expense.getName());
         values.put(DBHelper.COLUMN_AMOUNT, expense.getAmount());
@@ -56,32 +63,22 @@ public class ExpenseDAO {
                 new String[]{firebaseId});
     }
 
-    // Đánh dấu xóa chi tiêu (không xóa thật sự, chỉ đánh dấu để đồng bộ lên Firebase sau)
-    public int markExpenseDeleted(String firebaseId) {
-        ContentValues values = new ContentValues();
-        values.put(DBHelper.COLUMN_SYNC_STATUS, DBHelper.SYNC_STATUS_DELETED);
-
-        return database.update(DBHelper.TABLE_EXPENSES,
-                values,
-                DBHelper.COLUMN_FIREBASE_ID + " = ?",
-                new String[]{firebaseId});
-    }
-
-    // Xóa chi tiêu khỏi SQLite sau khi đã đồng bộ với Firebase
-    public int deleteExpense(String firebaseId) {
+    public int deleteExpense(String firebaseId, String userId) {
         return database.delete(DBHelper.TABLE_EXPENSES,
-                DBHelper.COLUMN_FIREBASE_ID + " = ?",
-                new String[]{firebaseId});
+                DBHelper.COLUMN_FIREBASE_ID + " = ? AND " + DBHelper.COLUMN_EXPEND_USER_ID + " = ?",
+                new String[]{firebaseId, userId});
     }
 
     // Lấy tất cả chi tiêu từ SQLite
-    public List<Expend> getAllExpenses() {
+    public List<Expend> getAllExpenses(String chooseDate) {
         List<Expend> expenses = new ArrayList<>();
         Cursor cursor = database.query(DBHelper.TABLE_EXPENSES,
                 null,
-                DBHelper.COLUMN_SYNC_STATUS + " != ?",
-                new String[]{String.valueOf(DBHelper.SYNC_STATUS_DELETED)},
-                null, null, null);
+                DBHelper.COLUMN_SYNC_STATUS + " != ? AND "
+                        + DBHelper.COLUMN_DATE + " =? AND "
+                        + DBHelper.COLUMN_EXPEND_USER_ID + " =?",
+                new String[]{String.valueOf(DBHelper.SYNC_STATUS_DELETED), chooseDate, userId},
+                null,null, null);
 
         if (cursor != null && cursor.moveToFirst()) {
             do {
@@ -101,13 +98,13 @@ public class ExpenseDAO {
         return expenses;
     }
 
-    // Lấy các chi tiêu cần đồng bộ (mới, cập nhật, xóa)
     public List<Expend> getExpensesToSync() {
         List<Expend> expenses = new ArrayList<>();
         Cursor cursor = database.query(DBHelper.TABLE_EXPENSES,
                 null,
-                DBHelper.COLUMN_SYNC_STATUS + " != ?",
-                new String[]{String.valueOf(DBHelper.SYNC_STATUS_OK)},
+                DBHelper.COLUMN_SYNC_STATUS + " != ? AND "
+                        + DBHelper.COLUMN_EXPEND_USER_ID + " =?",
+                new String[]{String.valueOf(DBHelper.SYNC_STATUS_OK), userId},
                 null, null, null);
 
         if (cursor != null && cursor.moveToFirst()) {
@@ -123,7 +120,6 @@ public class ExpenseDAO {
 
                 Expend expense = new Expend(date, name, amount, type, category);
                 expense.setId(firebaseId);
-                // Thêm thông tin trạng thái đồng bộ để xử lý sau
                 expense.setSyncStatus(syncStatus);
                 expense.setLocalId(id);
                 expenses.add(expense);
@@ -133,18 +129,17 @@ public class ExpenseDAO {
         return expenses;
     }
 
-    // Cập nhật trạng thái đồng bộ
     public int updateSyncStatus(String firebaseId, int syncStatus) {
         ContentValues values = new ContentValues();
         values.put(DBHelper.COLUMN_SYNC_STATUS, syncStatus);
 
         return database.update(DBHelper.TABLE_EXPENSES,
                 values,
-                DBHelper.COLUMN_FIREBASE_ID + " = ?",
-                new String[]{firebaseId});
+                DBHelper.COLUMN_FIREBASE_ID + " = ? AND "
+                + DBHelper.COLUMN_EXPEND_USER_ID + " =?",
+                new String[]{firebaseId, userId});
     }
 
-    // Cập nhật Firebase ID cho bản ghi mới
     public int updateFirebaseId(int localId, String firebaseId) {
         ContentValues values = new ContentValues();
         values.put(DBHelper.COLUMN_FIREBASE_ID, firebaseId);
@@ -152,8 +147,9 @@ public class ExpenseDAO {
 
         return database.update(DBHelper.TABLE_EXPENSES,
                 values,
-                DBHelper.COLUMN_ID + " = ?",
-                new String[]{String.valueOf(localId)});
+                DBHelper.COLUMN_ID + " = ? AND "
+                        + DBHelper.COLUMN_EXPEND_USER_ID + " =?",
+                new String[]{String.valueOf(localId), userId});
     }
 }
 

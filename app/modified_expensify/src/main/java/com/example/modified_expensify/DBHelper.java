@@ -7,10 +7,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "expenses.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     public static final String TABLE_EXPENSES = "expenses";
     public static final String COLUMN_ID = "id";
+    public static final String COLUMN_EXPEND_USER_ID = "user_id";
     public static final String COLUMN_FIREBASE_ID = "firebase_id";
     public static final String COLUMN_DATE = "date";
     public static final String COLUMN_NAME = "name";
@@ -28,6 +29,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_EXPENSES =
             "CREATE TABLE " + TABLE_EXPENSES + " (" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    COLUMN_EXPEND_USER_ID + " TEXT," +
                     COLUMN_FIREBASE_ID + " TEXT," +
                     COLUMN_DATE + " TEXT," +
                     COLUMN_NAME + " TEXT," +
@@ -61,6 +63,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
        if (oldVersion < 2){
            db.execSQL(SQL_CREATE_PROFILE);
+       }
+       if(oldVersion < 3){
+           db.execSQL("ALTER TABLE " + TABLE_EXPENSES + " ADD COLUMN " + COLUMN_EXPEND_USER_ID + " TEXT");
        }
     }
 }

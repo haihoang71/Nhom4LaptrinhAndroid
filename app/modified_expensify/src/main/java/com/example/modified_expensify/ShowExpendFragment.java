@@ -1,7 +1,6 @@
 package com.example.modified_expensify;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.*;
 import android.widget.*;
 
@@ -13,18 +12,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ShowExpendFragment extends Fragment {
 
     private ListView myListView;
     private List<Expend> expendList;
     private DatabaseReference expendDbRef;
-    private Button bntSync;
     private SyncManager syncManager;
-
     private ArrayAdapter<Expend> adapter;
+    private CalendarView calendarView;
+    private String date;
 
     @Nullable
     @Override
@@ -35,51 +33,48 @@ public class ShowExpendFragment extends Fragment {
         View view = inflater.inflate(R.layout.show_expend, container, false);
 
         myListView = view.findViewById(R.id.myListView);
-        bntSync = view.findViewById(R.id.bntSync);
+        calendarView = view.findViewById(R.id.calendarView);
 
         expendList = new ArrayList<>();
         syncManager = new SyncManager(requireContext());
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            String userId = user.getUid();
-            expendDbRef = FirebaseDatabase.getInstance()
-                    .getReference("Users")
-                    .child(userId)
-                    .child("Expenses");
+        String userId = user.getUid();
+        expendDbRef = FirebaseDatabase.getInstance()
+                .getReference("Users")
+                .child(userId)
+                .child("Expenses");
 
-            loadExpenses(); // load từ SQLite
-        } else {
-            Toast.makeText(getContext(), "User not logged in!", Toast.LENGTH_SHORT).show();
-        }
+        calendarView.setOnDateChangeListener((view1, year, month, dayOfMonth) -> {
+            Calendar selectedDate = Calendar.getInstance();
+            selectedDate.set(year, month, dayOfMonth);
+            this.date = dayOfMonth + "/" + (month + 1) + "/" + year;
+            loadExpenses(this.date);
+        });
 
-        bntSync.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Đang đồng bộ dữ liệu...", Toast.LENGTH_SHORT).show();
-            syncManager.checkAndSync();
-            loadExpenses(); // reload lại sau khi sync
+
+        myListView.setOnItemLongClickListener((parent, view1, position, id) -> {
+            Expend expense = expendList.get(position);
+            confirmDelete(expense, position);
+            return true;
         });
 
         return view;
     }
 
-    private void loadExpenses() {
-        expendList = syncManager.loadExpenses();
-
-        if (expendList.isEmpty()) {
-            Toast.makeText(getContext(), "Không có dữ liệu chi tiêu nào!", Toast.LENGTH_SHORT).show();
-        } else {
-            adapter = new ListAdapter(expendList);
-            myListView.setAdapter(adapter);
-        }
+    private void loadExpenses(String date) {
+        expendList = syncManager.loadExpenses(date);
+        adapter = new ListAdapter(expendList);
+        myListView.setAdapter(adapter);
     }
 
-    private void deleteRecord(Expend expense) {
+    private void confirmDelete(Expend expense, int position) {
         new android.app.AlertDialog.Builder(getContext())
                 .setTitle("Xác nhận xóa")
                 .setMessage("Bạn có chắc chắn muốn xóa chi tiêu này?")
                 .setPositiveButton("Xóa", (dialog, which) -> {
                     syncManager.deleteExpense(expense);
-                    expendList.remove(expense);
+                    expendList.remove(position);
                     adapter.notifyDataSetChanged();
                     Toast.makeText(getContext(), "Đã xóa chi tiêu!", Toast.LENGTH_SHORT).show();
                 })
@@ -89,7 +84,7 @@ public class ShowExpendFragment extends Fragment {
 
     private class ListAdapter extends ArrayAdapter<Expend> {
         public ListAdapter(List<Expend> expendsList) {
-            super(requireContext(), R.layout.show_expend, expendsList);
+            super(requireContext(), R.layout.list_item, expendsList);
         }
 
         @NonNull
@@ -104,7 +99,6 @@ public class ShowExpendFragment extends Fragment {
             TextView tvAmount = convertView.findViewById(R.id.tvAmount);
             TextView tvType = convertView.findViewById(R.id.tvType);
             TextView tvCategory = convertView.findViewById(R.id.tvCategory);
-            Button bntDelete = convertView.findViewById(R.id.bntDelete);
 
             Expend expend = getItem(position);
             if (expend != null) {
@@ -113,8 +107,6 @@ public class ShowExpendFragment extends Fragment {
                 tvAmount.setText(String.valueOf(expend.getAmount()));
                 tvType.setText(expend.getType());
                 tvCategory.setText(expend.getCategory());
-
-                bntDelete.setOnClickListener(v -> deleteRecord(expend));
             }
 
             return convertView;
@@ -125,6 +117,5 @@ public class ShowExpendFragment extends Fragment {
     public void onResume() {
         super.onResume();
         syncManager.checkAndSync();
-        loadExpenses();
     }
 }
