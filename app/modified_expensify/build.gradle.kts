@@ -34,6 +34,7 @@ android {
 
 dependencies {
 
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation("com.google.firebase:firebase-database:20.3.0")
     implementation("com.google.firebase:firebase-auth:xx.x.x")
     implementation("de.hdodenhof:circleimageview:3.1.")

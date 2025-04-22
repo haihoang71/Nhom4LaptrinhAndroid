@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Expense Manager</string>
+    <string name="tab_expense">Chi tiêu</string>
+    <string name="tab_income">Thu nhập</string>
+    <string name="balance">Thu chi</string>
+    <string name="chart_tab_expense">Chi tiêu</string>
+    <string name="chart_tab_income">Thu nhập</string>
+    <string name="chart_tab_balance">Thu chi</string>
+    <string name="chart_button_ok">OK</string>
+    <string name="cancel">Hủy</string>
+    <string name="category">Danh mục</string>
+    <string name="chart_amount_default">+0đ</string>
+    <string name="chart_expense_default">Chi tiêu\n-0đ</string>
+    <string name="chart_income_default">Thu nhập\n+0đ</string>
+    <string name="chart_balance_default">Thu chi\n+0đ</string>
+    <string name="chart_prev">Trước</string>
+    <string name="chart_next">Sau</string>
     <string name="login">Login</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -32,6 +47,25 @@
         <item>Entertainment</item>
         <item>Bills</item>
         <item>Other</item>
+    </string-array>
+    <string-array name="view_modes">
+        <item>Ngày</item>
+        <item>Tháng</item>
+        <item>Năm</item>
+    </string-array>
+    <string-array name="months_array">
+        <item>Th1</item>
+        <item>Th2</item>
+        <item>Th3</item>
+        <item>Th4</item>
+        <item>Th5</item>
+        <item>Th6</item>
+        <item>Th7</item>
+        <item>Th8</item>
+        <item>Th9</item>
+        <item>Th10</item>
+        <item>Th11</item>
+        <item>Th12</item>
     </string-array>
     <string name="logout">Logout</string>
     <string name="title_activity_login">Login</string>

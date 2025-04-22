@@ -16,13 +16,14 @@ public class ExpenseDAO {
     private DBHelper dbHelper;
     private Context context;
 
-    FirebaseAuth auth = FirebaseAuth.getInstance();
-    FirebaseUser user = auth.getCurrentUser();
-    String userId = user.getUid();
+    public final String userId;
 
     public ExpenseDAO(Context context) {
         this.context = context;
         dbHelper = new DBHelper(context);
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+        this.userId = user.getUid();
     }
 
     public void open() {
@@ -150,6 +151,100 @@ public class ExpenseDAO {
                 DBHelper.COLUMN_ID + " = ? AND "
                         + DBHelper.COLUMN_EXPEND_USER_ID + " =?",
                 new String[]{String.valueOf(localId), userId});
+    }
+
+    // Tổng thu/chi theo loại và ngày cụ thể
+    public double getTotalByTypeAndDate(String type, String date) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT SUM(" + DBHelper.COLUMN_AMOUNT + ") FROM " + DBHelper.TABLE_EXPENSES +
+                        " WHERE " + DBHelper.COLUMN_TYPE + "=? AND " + DBHelper.COLUMN_DATE + "=? AND " + DBHelper.COLUMN_EXPEND_USER_ID + "=?",
+                new String[]{type, date, userId}
+        );
+        double total = 0;
+        if (cursor.moveToFirst()) total = cursor.getDouble(0);
+        cursor.close();
+        return total;
+    }
+
+    public double getMonthlyTotalByType(String type, String month) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT SUM(" + DBHelper.COLUMN_AMOUNT + ") FROM " + DBHelper.TABLE_EXPENSES +
+                        " WHERE " + DBHelper.COLUMN_TYPE + "=? AND " + DBHelper.COLUMN_DATE + " LIKE ? AND " + DBHelper.COLUMN_EXPEND_USER_ID + "=?",
+                new String[]{type, month + "%", userId}
+        );
+        double total = 0;
+        if (cursor.moveToFirst()) total = cursor.getDouble(0);
+        cursor.close();
+        return total;
+    }
+
+    public double getYearlyTotalByType(String type, String year) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT SUM(" + DBHelper.COLUMN_AMOUNT + ") FROM " + DBHelper.TABLE_EXPENSES +
+                        " WHERE " + DBHelper.COLUMN_TYPE + "=? AND " + DBHelper.COLUMN_DATE + " LIKE ? AND " + DBHelper.COLUMN_EXPEND_USER_ID + "=?",
+                new String[]{type, year + "%", userId}
+        );
+        double total = 0;
+        if (cursor.moveToFirst()) total = cursor.getDouble(0);
+        cursor.close();
+        return total;
+    }
+
+    public Cursor getExpensesByDay(String date) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        return db.rawQuery(
+                "SELECT category, SUM(amount) FROM " + DBHelper.TABLE_EXPENSES +
+                        " WHERE type = 'OUT' AND date = ? AND " + DBHelper.COLUMN_EXPEND_USER_ID + "=? GROUP BY category",
+                new String[]{date, userId}
+        );
+    }
+
+    public Cursor getExpensesByMonth(String monthYear) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        return db.rawQuery(
+                "SELECT category, SUM(amount) FROM " + DBHelper.TABLE_EXPENSES +
+                        " WHERE type = 'OUT' AND date LIKE ? AND " + DBHelper.COLUMN_EXPEND_USER_ID + "=? GROUP BY category",
+                new String[]{monthYear + "%", userId}
+        );
+    }
+
+    public Cursor getExpensesByYear(String year) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        return db.rawQuery(
+                "SELECT category, SUM(amount) FROM " + DBHelper.TABLE_EXPENSES +
+                        " WHERE type = 'OUT' AND date LIKE ? AND " + DBHelper.COLUMN_USER_ID + "=? GROUP BY category",
+                new String[]{year + "%", userId}
+        );
+    }
+
+    public Cursor getIncomeByDay(String date) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        return db.rawQuery(
+                "SELECT category, SUM(amount) FROM " + DBHelper.TABLE_EXPENSES +
+                        " WHERE type = 'IN' AND date = ? AND " + DBHelper.COLUMN_USER_ID + "=? GROUP BY category",
+                new String[]{date, userId}
+        );
+    }
+
+    public Cursor getIncomeByMonth(String monthYear) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        return db.rawQuery(
+                "SELECT category, SUM(amount) FROM " + DBHelper.TABLE_EXPENSES +
+                        " WHERE type = 'IN' AND date LIKE ? AND " + DBHelper.COLUMN_USER_ID + "=? GROUP BY category",
+                new String[]{monthYear + "%", userId}
+        );
+    }
+
+    public Cursor getIncomeByYear(String year) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        return db.rawQuery(
+                "SELECT category, SUM(amount) FROM " + DBHelper.TABLE_EXPENSES +
+                        " WHERE type = 'IN' AND date LIKE ? AND " + DBHelper.COLUMN_USER_ID + "=? GROUP BY category",
+                new String[]{year + "%", userId}
+        );
     }
 }
 
