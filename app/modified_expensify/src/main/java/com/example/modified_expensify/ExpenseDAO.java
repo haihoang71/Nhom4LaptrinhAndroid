@@ -156,10 +156,20 @@ public class ExpenseDAO {
     // Tổng thu/chi theo loại và ngày cụ thể
     public double getTotalByTypeAndDate(String type, String date) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String type_en, type_vn, type_ja;
+        if (type.equals("IN")){
+            type_vn = "Thu nhập";
+            type_en = "Income";
+            type_ja = "収入";
+        }else{
+            type_vn = "Chi tiêu";
+            type_en = "Expense";
+            type_ja = "支出";
+        }
         Cursor cursor = db.rawQuery(
                 "SELECT SUM(" + DBHelper.COLUMN_AMOUNT + ") FROM " + DBHelper.TABLE_EXPENSES +
-                        " WHERE " + DBHelper.COLUMN_TYPE + "=? AND " + DBHelper.COLUMN_DATE + "=? AND " + DBHelper.COLUMN_EXPEND_USER_ID + "=?",
-                new String[]{type, date, userId}
+                        " WHERE (" + DBHelper.COLUMN_TYPE + " =? OR " + DBHelper.COLUMN_TYPE + " =? OR " + DBHelper.COLUMN_TYPE + " =?)"+ " AND " + DBHelper.COLUMN_DATE + "=? AND " + DBHelper.COLUMN_EXPEND_USER_ID + "=?",
+                new String[]{type_vn, type_en, type_ja, date, userId}
         );
         double total = 0;
         if (cursor.moveToFirst()) total = cursor.getDouble(0);
@@ -169,10 +179,20 @@ public class ExpenseDAO {
 
     public double getMonthlyTotalByType(String type, String month) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String type_en, type_vn, type_ja;
+        if (type.equals("IN")){
+            type_vn = "Thu nhập";
+            type_en = "Income";
+            type_ja = "収入";
+        }else{
+            type_vn = "Chi tiêu";
+            type_en = "Expense";
+            type_ja = "支出";
+        }
         Cursor cursor = db.rawQuery(
                 "SELECT SUM(" + DBHelper.COLUMN_AMOUNT + ") FROM " + DBHelper.TABLE_EXPENSES +
-                        " WHERE " + DBHelper.COLUMN_TYPE + "=? AND " + DBHelper.COLUMN_DATE + " LIKE ? AND " + DBHelper.COLUMN_EXPEND_USER_ID + "=?",
-                new String[]{type, month + "%", userId}
+                        " WHERE (" + DBHelper.COLUMN_TYPE + " =? OR " + DBHelper.COLUMN_TYPE + " =? OR " + DBHelper.COLUMN_TYPE + " =?)" + " AND " + DBHelper.COLUMN_DATE + " LIKE ? AND " + DBHelper.COLUMN_EXPEND_USER_ID + "=?",
+                new String[]{type_vn, type_en, type_ja, month + "%", userId}
         );
         double total = 0;
         if (cursor.moveToFirst()) total = cursor.getDouble(0);
@@ -182,10 +202,20 @@ public class ExpenseDAO {
 
     public double getYearlyTotalByType(String type, String year) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String type_en, type_vn, type_ja;
+        if (type.equals("IN")){
+            type_vn = "Thu nhập";
+            type_en = "Income";
+            type_ja = "収入";
+        }else{
+            type_vn = "Chi tiêu";
+            type_en = "Expense";
+            type_ja = "支出";
+        }
         Cursor cursor = db.rawQuery(
                 "SELECT SUM(" + DBHelper.COLUMN_AMOUNT + ") FROM " + DBHelper.TABLE_EXPENSES +
-                        " WHERE " + DBHelper.COLUMN_TYPE + "=? AND " + DBHelper.COLUMN_DATE + " LIKE ? AND " + DBHelper.COLUMN_EXPEND_USER_ID + "=?",
-                new String[]{type, year + "%", userId}
+                        " WHERE (" + DBHelper.COLUMN_TYPE + " =? OR " + DBHelper.COLUMN_TYPE + " =? OR " + DBHelper.COLUMN_TYPE + " =?)" + " AND " + DBHelper.COLUMN_DATE + " LIKE ? AND " + DBHelper.COLUMN_EXPEND_USER_ID + "=?",
+                new String[]{type_vn, type_en, type_ja, year + "%", userId}
         );
         double total = 0;
         if (cursor.moveToFirst()) total = cursor.getDouble(0);
@@ -197,7 +227,7 @@ public class ExpenseDAO {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         return db.rawQuery(
                 "SELECT category, SUM(amount) FROM " + DBHelper.TABLE_EXPENSES +
-                        " WHERE type = 'OUT' AND date = ? AND " + DBHelper.COLUMN_EXPEND_USER_ID + "=? GROUP BY category",
+                        " WHERE (type = 'Chi tiêu' OR type = 'Expense' OR type = '支出') AND date = ? AND " + DBHelper.COLUMN_EXPEND_USER_ID + "=? GROUP BY category",
                 new String[]{date, userId}
         );
     }
@@ -206,7 +236,7 @@ public class ExpenseDAO {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         return db.rawQuery(
                 "SELECT category, SUM(amount) FROM " + DBHelper.TABLE_EXPENSES +
-                        " WHERE type = 'OUT' AND date LIKE ? AND " + DBHelper.COLUMN_EXPEND_USER_ID + "=? GROUP BY category",
+                        " WHERE (type = 'Chi tiêu' OR type = 'Expense' OR type = '支出') AND date LIKE ? AND " + DBHelper.COLUMN_EXPEND_USER_ID + "=? GROUP BY category",
                 new String[]{monthYear + "%", userId}
         );
     }
@@ -215,7 +245,7 @@ public class ExpenseDAO {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         return db.rawQuery(
                 "SELECT category, SUM(amount) FROM " + DBHelper.TABLE_EXPENSES +
-                        " WHERE type = 'OUT' AND date LIKE ? AND " + DBHelper.COLUMN_USER_ID + "=? GROUP BY category",
+                        " WHERE (type = 'Chi tiêu' OR type = 'Expense' OR type = '支出') AND date LIKE ? AND " + DBHelper.COLUMN_EXPEND_USER_ID + "=? GROUP BY category",
                 new String[]{year + "%", userId}
         );
     }
@@ -224,7 +254,7 @@ public class ExpenseDAO {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         return db.rawQuery(
                 "SELECT category, SUM(amount) FROM " + DBHelper.TABLE_EXPENSES +
-                        " WHERE type = 'IN' AND date = ? AND " + DBHelper.COLUMN_USER_ID + "=? GROUP BY category",
+                        " WHERE (type = 'Thu nhập' OR type = 'Income' OR type = '収入') AND date = ? AND " + DBHelper.COLUMN_EXPEND_USER_ID + "=? GROUP BY category",
                 new String[]{date, userId}
         );
     }
@@ -233,7 +263,7 @@ public class ExpenseDAO {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         return db.rawQuery(
                 "SELECT category, SUM(amount) FROM " + DBHelper.TABLE_EXPENSES +
-                        " WHERE type = 'IN' AND date LIKE ? AND " + DBHelper.COLUMN_USER_ID + "=? GROUP BY category",
+                " WHERE (type ='Thu nhập' OR type = 'Income' OR type = '収入') AND date LIKE ? AND " + DBHelper.COLUMN_EXPEND_USER_ID + "=? GROUP BY category",
                 new String[]{monthYear + "%", userId}
         );
     }
@@ -242,7 +272,7 @@ public class ExpenseDAO {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         return db.rawQuery(
                 "SELECT category, SUM(amount) FROM " + DBHelper.TABLE_EXPENSES +
-                        " WHERE type = 'IN' AND date LIKE ? AND " + DBHelper.COLUMN_USER_ID + "=? GROUP BY category",
+                        " WHERE (type = 'Thu nhập' OR type = 'Income' OR type = '収入') AND date LIKE ? AND " + DBHelper.COLUMN_EXPEND_USER_ID + "=? GROUP BY category",
                 new String[]{year + "%", userId}
         );
     }

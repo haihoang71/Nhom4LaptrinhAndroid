@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,6 +75,9 @@ public class AnalysisFragment extends Fragment {
 
         // Initialize DatabaseHelper
         dbHelper = new DBHelper(requireContext());
+
+        ExpenseDAO expenseDAO = new ExpenseDAO(requireContext());
+        expenseDAO.open();
 
         // Initialize views
         pieChart = view.findViewById(R.id.pieChart);
@@ -246,6 +251,7 @@ public class AnalysisFragment extends Fragment {
         double total = 0;
 
         ExpenseDAO expenseDAO = new ExpenseDAO(requireContext());
+        expenseDAO.open();
 
         switch (currentViewMode) {
             case DAY:
@@ -268,6 +274,15 @@ public class AnalysisFragment extends Fragment {
 
             default:
                 return;
+        }
+
+        Log.d("AnalysisDebug", "Query params: type=" + type +
+                ", date format=" + formattedDate);
+
+        if (cursor != null) {
+            Log.d("AnalysisDebug", "Cursor count: " + cursor.getCount());
+        } else {
+            Log.d("AnalysisDebug", "Cursor is null");
         }
 
         // Cập nhật thông tin tổng thu/chi và số dư
@@ -334,4 +349,5 @@ public class AnalysisFragment extends Fragment {
         startActivity(new Intent(requireContext(), activityClass));
         requireActivity().overridePendingTransition(0, 0);
     }
+
 }

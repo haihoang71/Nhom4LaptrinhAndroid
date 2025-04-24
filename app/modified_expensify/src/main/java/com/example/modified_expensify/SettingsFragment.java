@@ -1,5 +1,6 @@
 package com.example.modified_expensify;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,7 +25,8 @@ public class SettingsFragment extends Fragment {
     private ImageHelper imageHelper;
     private ImageView imgUserAvatar;
     private TextView tvUserName;
-    private Button bntEditProfile, btnLogout, btnLanguage, bntEditThemeColor;
+    private Button bntEditProfile;
+    private LinearLayout itemLogout, itemChangeLanguage, itemChangeColor;
 
     @Nullable
     @Override
@@ -40,27 +42,27 @@ public class SettingsFragment extends Fragment {
         tvUserName = view.findViewById(R.id.user_details);
         imgUserAvatar = view.findViewById(R.id.imgUserAvatar);
         bntEditProfile = view.findViewById(R.id.bntEditProfile);
-        btnLogout = view.findViewById(R.id.btnLogout);
-        btnLanguage = view.findViewById(R.id.btnChangeLanguage);
-        bntEditThemeColor = view.findViewById(R.id.bntEditThemeColor);
+        itemLogout = view.findViewById(R.id.itemLogout);
+        itemChangeLanguage = view.findViewById(R.id.itemChangeLanguage);
+        itemChangeColor = view.findViewById(R.id.itemChangeColor);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             startActivity(new Intent(requireContext(), Login.class));
             requireActivity().finish();
         } else {
-            tvUserName.setText("Hello " + user.getEmail());
+            tvUserName.setText(getString(R.string.hello_user, user.getEmail()));
         }
 
         bntEditProfile.setOnClickListener(v -> {
             startActivity(new Intent(requireContext(), ProfileEditActivity.class));
         });
 
-        bntEditThemeColor.setOnClickListener(v -> showThemeDialog());
+        itemChangeColor.setOnClickListener(v -> showThemeDialog());
 
-        btnLanguage.setOnClickListener(v -> showLanguageDialog());
+        itemChangeLanguage.setOnClickListener(v -> showLanguageDialog());
 
-        btnLogout.setOnClickListener(v -> {
+        itemLogout.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(requireContext(), Login.class));
             requireActivity().finish();
@@ -114,21 +116,22 @@ public class SettingsFragment extends Fragment {
     }
 
     private void showLanguageDialog() {
-        String[] langs = {"English", "Tiếng Việt"};
+        String[] langs = {"Tiếng Việt", "English", "日本語"};
         new android.app.AlertDialog.Builder(getContext())
-                .setTitle("Chọn ngôn ngữ")
+                .setTitle(R.string.select_lang)
                 .setItems(langs, (dialog, which) -> {
                     if (which == 0) setLocale("vi");
-                    else setLocale("en");
+                    else if (which == 1) setLocale("en");
+                    else setLocale("ja");
                 }).show();
     }
 
     private void showThemeDialog() {
-        String[] themes = {"Giao diện Xanh Biển", "Giao diện Xanh Lá", "Giao diện Tím", "Giao diện Cam"};
-        String[] THEME_KEYS = {"DynamicTheme1", "DynamicTheme2", "DynamicTheme3", "DynamicTheme4"};
+        String[] themes = getResources().getStringArray(R.array.theme_names);
+        String[] THEME_KEYS = {"DynamicTheme4", "DynamicTheme2", "DynamicTheme3", "DynamicTheme1"};
 
-        new android.app.AlertDialog.Builder(requireContext())
-                .setTitle("Chọn giao diện")
+        new AlertDialog.Builder(requireContext())
+                .setTitle(getString(R.string.choose_theme))
                 .setItems(themes, (dialog, which) -> {
                     String selectedTheme = THEME_KEYS[which];
                     SharedPreferences prefs = requireContext().getSharedPreferences("AppThemePrefs", Context.MODE_PRIVATE);
@@ -139,7 +142,7 @@ public class SettingsFragment extends Fragment {
                     startActivity(intent);
                     requireActivity().finish();
                 })
-                .setNegativeButton("Hủy", null)
+                .setNegativeButton(getString(R.string.cancel), null)
                 .show();
     }
 
