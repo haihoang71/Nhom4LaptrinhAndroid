@@ -27,20 +27,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_marginEnd="30dp" />
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_marginTop="8dp">
 
                 <ImageView
                     android:id="@+id/btnPrev"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_media_previous"
+                    android:src="@drawable/ic_back"
                     android:contentDescription="@string/chart_prev"
                     android:layout_marginEnd="8dp"/>
 
@@ -48,7 +41,6 @@
                     android:id="@+id/tvMonthYear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:drawable/dialog_holo_light_frame"
                     android:padding="4dp"
                     android:text="01/2025"
                     android:textAlignment="center"
@@ -60,7 +52,7 @@
                     android:id="@+id/btnNext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_media_next"
+                    android:src="@drawable/ic_next"
                     android:contentDescription="@string/chart_next"
                     android:layout_marginStart="8dp"/>
             </LinearLayout>
@@ -76,10 +68,11 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:orientation="horizontal"
             android:weightSum="3"
-            android:layout_marginBottom="12dp">
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/chart_expense_table">
 
             <TextView
                 android:id="@+id/tvExpense"
@@ -88,7 +81,13 @@
                 android:layout_weight="1"
                 android:text="@string/chart_expense_default"
                 android:gravity="center"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textColor="@color/red"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#999999"/>
 
             <TextView
                 android:id="@+id/tvIncome"
@@ -97,7 +96,13 @@
                 android:layout_weight="1"
                 android:text="@string/chart_income_default"
                 android:gravity="center"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textColor="@color/blue"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#999999"/>
 
             <TextView
                 android:id="@+id/tvBalance"
@@ -106,7 +111,8 @@
                 android:layout_weight="1"
                 android:text="@string/chart_balance_default"
                 android:gravity="center"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textColor="@color/green"/>
         </LinearLayout>
 
         <LinearLayout
