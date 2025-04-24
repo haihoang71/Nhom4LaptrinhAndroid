@@ -11,7 +11,7 @@
     <color name="blue">#2196F3</color>
     <color name="purple">#9C27B0</color>
 
-
+    <color name="gray_border">#CCCCCC</color>
 
     <color name="theme1ColorPrimary">#EF6C00</color>
     <color name="theme1ColorPrimaryDark">#E65100</color>

@@ -24,7 +24,8 @@ public class SettingsFragment extends Fragment {
     private ImageHelper imageHelper;
     private ImageView imgUserAvatar;
     private TextView tvUserName;
-    private Button bntEditProfile, btnLogout, btnLanguage, bntEditThemeColor;
+    private Button bntEditProfile;
+    private LinearLayout itemLogout, itemChangeLanguage, itemChangeColor;
 
     @Nullable
     @Override
@@ -40,27 +41,27 @@ public class SettingsFragment extends Fragment {
         tvUserName = view.findViewById(R.id.user_details);
         imgUserAvatar = view.findViewById(R.id.imgUserAvatar);
         bntEditProfile = view.findViewById(R.id.bntEditProfile);
-        btnLogout = view.findViewById(R.id.btnLogout);
-        btnLanguage = view.findViewById(R.id.btnChangeLanguage);
-        bntEditThemeColor = view.findViewById(R.id.bntEditThemeColor);
+        itemLogout = view.findViewById(R.id.itemLogout);
+        itemChangeLanguage = view.findViewById(R.id.itemChangeLanguage);
+        itemChangeColor = view.findViewById(R.id.itemChangeColor);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             startActivity(new Intent(requireContext(), Login.class));
             requireActivity().finish();
         } else {
-            tvUserName.setText("Hello " + user.getEmail());
+            tvUserName.setText(getString(R.string.hello_user, user.getEmail()));
         }
 
         bntEditProfile.setOnClickListener(v -> {
             startActivity(new Intent(requireContext(), ProfileEditActivity.class));
         });
 
-        bntEditThemeColor.setOnClickListener(v -> showThemeDialog());
+        itemChangeColor.setOnClickListener(v -> showThemeDialog());
 
-        btnLanguage.setOnClickListener(v -> showLanguageDialog());
+        itemChangeLanguage.setOnClickListener(v -> showLanguageDialog());
 
-        btnLogout.setOnClickListener(v -> {
+        itemLogout.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(requireContext(), Login.class));
             requireActivity().finish();
@@ -125,7 +126,7 @@ public class SettingsFragment extends Fragment {
 
     private void showThemeDialog() {
         String[] themes = {"Giao diện Xanh Biển", "Giao diện Xanh Lá", "Giao diện Tím", "Giao diện Cam"};
-        String[] THEME_KEYS = {"DynamicTheme1", "DynamicTheme2", "DynamicTheme3", "DynamicTheme4"};
+        String[] THEME_KEYS = {"DynamicTheme4", "DynamicTheme2", "DynamicTheme3", "DynamicTheme1"};
 
         new android.app.AlertDialog.Builder(requireContext())
                 .setTitle("Chọn giao diện")

@@ -29,6 +29,7 @@
     <string name="chart_next">Next</string>
     <string name="expend">Chi tiêu</string>
     <string name="income">Thu nhập</string>
+    <string name="hello_user">Hello %1$s</string>
     <string-array name="expense_types">
         <item>Thu nhập</item>
         <item>Chi tiêu</item>
@@ -69,4 +70,7 @@
     </string-array>
     <string name="logout">Logout</string>
     <string name="title_activity_login">Login</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="change_theme">Change theme</string>
+    <string name="change_language">Change language</string>
 </resources>
