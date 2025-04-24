@@ -29,6 +29,10 @@
     <string name="button_add_expense">Add</string>
     <string name="expend">Expense</string>
     <string name="income">Income</string>
+    <string name="edit_profile">Chỉnh sửa thông tin</string>
+    <string name="change_theme">Đổi màu</string>
+    <string name="change_language">Thay đổi ngôn ngữ</string>
+    <string name="hello_user">Xin chào %1$s</string>
     <string-array name="expense_types">
         <item>Income</item>
         <item>Expense</item>
@@ -67,6 +71,6 @@
         <item>Th11</item>
         <item>Th12</item>
     </string-array>
-    <string name="logout">Logout</string>
+    <string name="logout">Đăng xuất</string>
     <string name="title_activity_login">Login</string>
 </resources>

@@ -1,57 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:background="@android:color/white"
-    android:padding="24dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?android:colorBackground">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/imgUserAvatar"
-            android:layout_width="match_parent"
-            android:layout_height="96dp"
-            android:gravity="center_horizontal"
-            android:src="@drawable/default_avatar" />
-
-        <TextView
-            android:id="@+id/user_details"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/black"
-            android:text="User Name"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-
-        <Button
-            android:id="@+id/bntEditProfile"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Chỉnh sửa thông tin" />
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:divider="?android:attr/listDivider"
+            android:showDividers="middle"
+            android:dividerPadding="8dp">
 
-        <Button
-            android:id="@+id/bntEditThemeColor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Đổi màu" />
+                <!-- Header: Avatar + Name + Email -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="16dp">
 
-        <Button
-            android:id="@+id/btnChangeLanguage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Thay đổi ngôn ngữ" />
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/imgUserAvatar"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:src="@drawable/default_avatar"
+                            app:civ_border_width="1dp"
+                            app:civ_border_color="@color/gray_border" />
 
-        <Button
-            android:id="@+id/btnLogout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Đăng xuất" />
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_marginStart="16dp"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content">
 
-</LinearLayout>
+                                <TextView
+                                    android:id="@+id/user_details"
+                                    android:text="User Name"
+                                    android:textStyle="bold"
+                                    android:textSize="16sp"
+                                    android:textColor="?android:textColorPrimary"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+
+                        </LinearLayout>
+                </LinearLayout>
+
+                <!-- Nút: Edit Profile -->
+                <Button
+                    android:id="@+id/bntEditProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/edit_profile"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Setting item: Đổi màu -->
+                <LinearLayout
+                    android:id="@+id/itemChangeColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="12dp"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                        <ImageView
+                            android:src="@drawable/ic_color_palette"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            app:tint="?attr/colorOnSurface"
+                            android:contentDescription="Đổi màu" />
+
+                        <TextView
+                            android:text="@string/change_theme"
+                            android:textSize="16sp"
+                            android:textColor="?android:textColorPrimary"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content" />
+
+                        <ImageView
+                            android:src="@drawable/ic_chevron_right"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            app:tint="?attr/colorOnSurface"
+                            android:contentDescription="Next" />
+                </LinearLayout>
+
+                <!-- Setting item: Thay đổi ngôn ngữ -->
+                <LinearLayout
+                    android:id="@+id/itemChangeLanguage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="12dp"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                        <ImageView
+                            android:src="@drawable/ic_language"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            app:tint="?attr/colorOnSurface"
+                            android:contentDescription="Ngôn ngữ" />
+
+                        <TextView
+                            android:text="@string/change_language"
+                            android:textSize="16sp"
+                            android:textColor="?android:textColorPrimary"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content" />
+
+                        <ImageView
+                            android:src="@drawable/ic_chevron_right"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            app:tint="?attr/colorOnSurface"
+                            android:contentDescription="Next" />
+                </LinearLayout>
+
+                <!-- Setting item: Đăng xuất -->
+                <LinearLayout
+                    android:id="@+id/itemLogout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingVertical="12dp"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                        <ImageView
+                            android:src="@drawable/ic_logout"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            app:tint="?attr/colorOnSurface"
+                            android:contentDescription="Đăng xuất" />
+
+                        <TextView
+                            android:text="@string/logout"
+                            android:textSize="16sp"
+                            android:textColor="?android:textColorPrimary"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content" />
+
+                        <ImageView
+                            android:src="@drawable/ic_chevron_right"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            app:tint="?attr/colorOnSurface"
+                            android:contentDescription="Next" />
+                </LinearLayout>
+
+        </LinearLayout>
+</ScrollView>
