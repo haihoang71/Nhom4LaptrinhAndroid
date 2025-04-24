@@ -93,4 +93,13 @@
         <item>Giao diện Cam</item>
     </string-array>
     <string name="select_lang">Chọn ngôn ngữ</string>
+    <string name="hello">Xin chào </string>
+    <string name="deleteTitle">Xác nhận xóa</string>
+    <string name="deleteMessage">Ban có chắc muốn xóa chi tiêu này?</string>
+    <string name="delete">Xóa</string>
+    <string name="home">Trang chủ</string>
+    <string name="calendar">Lịch</string>
+    <string name="statistic">Thống kê</string>
+    <string name="settings">Cài đặt</string>
+    <string name="error_loading_image">Lỗi khi tải ảnh</string>
 </resources>

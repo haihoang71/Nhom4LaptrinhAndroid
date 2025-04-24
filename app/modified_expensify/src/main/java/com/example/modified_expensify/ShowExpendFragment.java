@@ -73,15 +73,14 @@ public class ShowExpendFragment extends Fragment {
 
     private void confirmDelete(Expend expense, int position) {
         new android.app.AlertDialog.Builder(getContext())
-                .setTitle("Xác nhận xóa")
-                .setMessage("Bạn có chắc chắn muốn xóa chi tiêu này?")
-                .setPositiveButton("Xóa", (dialog, which) -> {
+                .setTitle(R.string.deleteTitle)
+                .setMessage(R.string.deleteMessage)
+                .setPositiveButton(R.string.delete, (dialog, which) -> {
                     syncManager.deleteExpense(expense);
                     expendList.remove(position);
                     adapter.notifyDataSetChanged();
-                    Toast.makeText(getContext(), "Đã xóa chi tiêu!", Toast.LENGTH_SHORT).show();
                 })
-                .setNegativeButton("Hủy", null)
+                .setNegativeButton(R.string.cancel, null)
                 .show();
     }
 

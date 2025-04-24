@@ -93,5 +93,14 @@
         <item>オレンジテーマ</item>
     </string-array>
     <string name="select_lang">ゲンゴセッテイ</string>
+    <string name="hello">こんにちは</string>
+    <string name="deleteTitle">削除の確認</string>
+    <string name="deleteMessage">この取引を削除してもよろしいですか？</string>
+    <string name="delete">削除</string>
+    <string name="home">ホーム</string>
+    <string name="calendar">カレンダー</string>
+    <string name="statistic">統計</string>
+    <string name="settings">設定</string>
+    <string name="error_loading_image">画像の読み込みエラー</string>
 
 </resources>

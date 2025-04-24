@@ -101,7 +101,7 @@ public class SettingsFragment extends Fragment {
     }
 
     private void displayUserInfo(UserProfile profile) {
-        tvUserName.setText("Hello " + profile.getFullName());
+        tvUserName.setText(getString(R.string.hello_user, profile.getFullName()));
 
         if (profile.getAvatar() != null && !profile.getAvatar().equals("default_avatar")) {
             Bitmap avatarBitmap = imageHelper.base64ToBitmap(profile.getAvatar());

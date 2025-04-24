@@ -53,7 +53,7 @@ public class ProfileEditActivity extends AppCompatActivity {
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Chỉnh sửa thông tin");
+            getSupportActionBar().setTitle(R.string.edit_profile);
         }
 
         editTextFullName = findViewById(R.id.editTextFullName);
@@ -79,7 +79,7 @@ public class ProfileEditActivity extends AppCompatActivity {
                                     avatarBase64 = imageHelper.bitmapToBase64(selectedImageBitmap);
                                 }
                             } catch (Exception e) {
-                                Toast.makeText(this, "Lỗi khi tải ảnh", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, R.string.error_loading_image, Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -91,8 +91,7 @@ public class ProfileEditActivity extends AppCompatActivity {
             if(checkAndRequestPermission()){
                 openImagePicker();
             }else{
-                Toast.makeText(ProfileEditActivity.this,
-                        "Bạn cần cấp quyền truy cập", Toast.LENGTH_SHORT).show();
+
             }
         });
         buttonSave.setOnClickListener(v -> saveProfile());
@@ -170,8 +169,6 @@ public class ProfileEditActivity extends AppCompatActivity {
                 public void onSuccess() {
                     runOnUiThread(() -> {
                         progressBar.setVisibility(View.GONE);
-                        Toast.makeText(ProfileEditActivity.this,
-                                "Đã lưu thông tin thành công", Toast.LENGTH_SHORT).show();
                         finish();
                     });
                 }
@@ -180,17 +177,12 @@ public class ProfileEditActivity extends AppCompatActivity {
                 public void onFailure(String errorMessage) {
                     runOnUiThread(() -> {
                         progressBar.setVisibility(View.GONE);
-                        Toast.makeText(ProfileEditActivity.this,
-                                "Đã lưu cục bộ nhưng chưa đồng bộ được: " + errorMessage,
-                                Toast.LENGTH_SHORT).show();
                         finish();
                     });
                 }
             });
         } else {
             progressBar.setVisibility(View.GONE);
-            Toast.makeText(ProfileEditActivity.this,
-                    "Không thể lưu thông tin", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -237,7 +229,7 @@ public class ProfileEditActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 openImagePicker();
             } else {
-                Toast.makeText(this, "Bạn cần cấp quyền để chọn ảnh", Toast.LENGTH_SHORT).show();
+
             }
         }
     }

@@ -39,7 +39,6 @@
 
                                 <TextView
                                     android:id="@+id/user_details"
-                                    android:text="User Name"
                                     android:textStyle="bold"
                                     android:textSize="16sp"
                                     android:textColor="?android:textColorPrimary"
