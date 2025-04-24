@@ -10,9 +10,9 @@
     <string name="register">Register</string>
     <string name="hint_date">Date</string>
     <string name="cancel">Cancel</string>
-    <string name="click_to_login">Click to Login</string>
-    <string name="click_to_register">Click to Register</string>
-    <string name="hint_expense_name">Description</string>
+    <string name="click_to_login">Click to login</string>
+    <string name="click_to_register">Click to register</string>
+    <string name="hint_expense_note">Note</string>
     <string name="hint_expense_amount">Amount</string>
     <string name="label_expense_paid">Paid</string>
     <string name="category">Categories</string>
@@ -27,33 +27,43 @@
     <string name="chart_balance_default">Balance\n+0đ</string>
     <string name="chart_prev">Previous</string>
     <string name="chart_next">Next</string>
-    <string name="expend">Chi tiêu</string>
-    <string name="income">Thu nhập</string>
+    <string name="expend">Expense</string>
+    <string name="income">Income</string>
     <string name="hello_user">Hello %1$s</string>
+    <string name="bntaddavatar">Upload avatar</string>
+    <string name="full_name">Full name</string>
+    <string name="birthdate">Birthday</string>
+    <string name="bntsave">Save</string>
+    <string name="enterNewTransaction">Enter new transaction</string>
+
     <string-array name="expense_types">
-        <item>Thu nhập</item>
-        <item>Chi tiêu</item>
+        <item>Income</item>
+        <item>Expense</item>
     </string-array>
+
     <string-array name="income_categories">
-        <item>Tiền lương</item>
-        <item>Tiền thưởng</item>
-        <item>Lãi đầu tư</item>
-        <item>Thu nhập phụ</item>
-        <item>Khác</item>
+        <item>Salary</item>
+        <item>Bonus</item>
+        <item>Investment profit</item>
+        <item>Side income</item>
+        <item>Other</item>
     </string-array>
+
     <string-array name="expend_categories">
-        <item>Ăn uống</item>
-        <item>Di chuyển</item>
-        <item>Mua sắm</item>
-        <item>Giải trí</item>
-        <item>Hóa đơn</item>
-        <item>Khác</item>
+        <item>Food and Drinks</item>
+        <item>Transport</item>
+        <item>Shopping</item>
+        <item>Entertainment</item>
+        <item>Bills</item>
+        <item>Other</item>
     </string-array>
+
     <string-array name="view_modes">
         <item>Day</item>
         <item>Month</item>
         <item>Year</item>
     </string-array>
+
     <string-array name="months_array">
         <item>Jan</item>
         <item>Feb</item>
@@ -68,9 +78,18 @@
         <item>Nov</item>
         <item>Dec</item>
     </string-array>
+
     <string name="logout">Logout</string>
     <string name="title_activity_login">Login</string>
     <string name="edit_profile">Edit profile</string>
     <string name="change_theme">Change theme</string>
     <string name="change_language">Change language</string>
+
+    <string name="choose_theme">Choose theme</string>
+    <string-array name="theme_names">
+        <item>Ocean Blue Theme</item>
+        <item>Green Theme</item>
+        <item>Purple Theme</item>
+        <item>Orange Theme</item>
+    </string-array>
 </resources>

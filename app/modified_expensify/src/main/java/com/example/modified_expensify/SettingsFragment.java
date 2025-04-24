@@ -1,5 +1,6 @@
 package com.example.modified_expensify;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -115,21 +116,22 @@ public class SettingsFragment extends Fragment {
     }
 
     private void showLanguageDialog() {
-        String[] langs = {"English", "Tiếng Việt"};
+        String[] langs = {"Tiếng Việt", "English", "日本語"};
         new android.app.AlertDialog.Builder(getContext())
                 .setTitle("Chọn ngôn ngữ")
                 .setItems(langs, (dialog, which) -> {
                     if (which == 0) setLocale("vi");
-                    else setLocale("en");
+                    else if (which == 1) setLocale("en");
+                    else setLocale("ja");
                 }).show();
     }
 
     private void showThemeDialog() {
-        String[] themes = {"Giao diện Xanh Biển", "Giao diện Xanh Lá", "Giao diện Tím", "Giao diện Cam"};
+        String[] themes = getResources().getStringArray(R.array.theme_names);
         String[] THEME_KEYS = {"DynamicTheme4", "DynamicTheme2", "DynamicTheme3", "DynamicTheme1"};
 
-        new android.app.AlertDialog.Builder(requireContext())
-                .setTitle("Chọn giao diện")
+        new AlertDialog.Builder(requireContext())
+                .setTitle(getString(R.string.choose_theme))
                 .setItems(themes, (dialog, which) -> {
                     String selectedTheme = THEME_KEYS[which];
                     SharedPreferences prefs = requireContext().getSharedPreferences("AppThemePrefs", Context.MODE_PRIVATE);
@@ -140,7 +142,7 @@ public class SettingsFragment extends Fragment {
                     startActivity(intent);
                     requireActivity().finish();
                 })
-                .setNegativeButton("Hủy", null)
+                .setNegativeButton(getString(R.string.cancel), null)
                 .show();
     }
 

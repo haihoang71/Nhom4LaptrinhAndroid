@@ -28,7 +28,7 @@
             android:id="@+id/buttonChooseImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chọn ảnh đại diện"
+            android:text="@string/bntaddavatar"
             android:layout_marginBottom="24dp" />
 
         <!-- Họ và tên -->
@@ -42,7 +42,7 @@
                 android:id="@+id/editTextFullName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Họ và tên"
+                android:hint="@string/full_name"
                 android:inputType="textPersonName" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -57,7 +57,7 @@
                 android:id="@+id/editTextBirthDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Ngày sinh"
+                android:hint="@string/birthdate"
                 android:inputType="none"
                 android:focusable="false"
                 android:clickable="true" />
@@ -68,7 +68,7 @@
             android:id="@+id/buttonSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Lưu thông tin"
+            android:text="@string/bntsave"
             android:layout_marginTop="8dp" />
 
         <!-- Progress -->

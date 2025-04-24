@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">カスタム支出管理</string>
+    <string name="tab_expense">支出</string>
+    <string name="tab_income">収入</string>
+    <string name="balance">残高</string>
+    <string name="login">ログイン</string>
+    <string name="email">メール</string>
+    <string name="password">パスワード</string>
+    <string name="register">登録</string>
+    <string name="hint_date">日付</string>
+    <string name="cancel">キャンセル</string>
+    <string name="click_to_login">ログインする</string>
+    <string name="click_to_register">登録する</string>
+    <string name="hint_expense_note">メモ</string>
+    <string name="hint_expense_amount">金額</string>
+    <string name="label_expense_paid">支払済み</string>
+    <string name="category">カテゴリー</string>
+    <string name="button_add_expense">追加</string>
+    <string name="chart_tab_expense">支出</string>
+    <string name="chart_tab_income">収入</string>
+    <string name="chart_tab_balance">残高</string>
+    <string name="chart_button_ok">OK</string>
+    <string name="chart_amount_default">+0</string>
+    <string name="chart_expense_default">支出\n-0円</string>
+    <string name="chart_income_default">収入\n+0円</string>
+    <string name="chart_balance_default">残高\n+0円</string>
+    <string name="chart_prev">前へ</string>
+    <string name="chart_next">次へ</string>
+    <string name="expend">支出</string>
+    <string name="income">収入</string>
+    <string name="hello_user">こんにちは %1$s</string>
+    <string name="bntaddavatar">アバターをアップロード</string>
+    <string name="full_name">氏名</string>
+    <string name="birthdate">生年月日</string>
+    <string name="bntsave">保存</string>
+    <string name="enterNewTransaction">新しい取引を入力</string>
+
+    <string-array name="expense_types">
+        <item>収入</item>
+        <item>支出</item>
+    </string-array>
+
+    <string-array name="income_categories">
+        <item>給料</item>
+        <item>ボーナス</item>
+        <item>投資利益</item>
+        <item>副収入</item>
+        <item>その他</item>
+    </string-array>
+
+    <string-array name="expend_categories">
+        <item>食事・飲み物</item>
+        <item>交通</item>
+        <item>ショッピング</item>
+        <item>娯楽</item>
+        <item>請求書</item>
+        <item>その他</item>
+    </string-array>
+
+    <string-array name="view_modes">
+        <item>日</item>
+        <item>月</item>
+        <item>年</item>
+    </string-array>
+
+    <string-array name="months_array">
+        <item>1月</item>
+        <item>2月</item>
+        <item>3月</item>
+        <item>4月</item>
+        <item>5月</item>
+        <item>6月</item>
+        <item>7月</item>
+        <item>8月</item>
+        <item>9月</item>
+        <item>10月</item>
+        <item>11月</item>
+        <item>12月</item>
+    </string-array>
+
+    <string name="logout">ログアウト</string>
+    <string name="title_activity_login">ログイン</string>
+    <string name="edit_profile">プロフィールを編集</string>
+    <string name="change_theme">テーマを変更</string>
+    <string name="change_language">言語を変更</string>
+
+    <string name="choose_theme">テーマを選択</string>
+    <string-array name="theme_names">
+        <item>オーシャンブルーテーマ</item>
+        <item>グリーンテーマ</item>
+        <item>パープルテーマ</item>
+        <item>オレンジテーマ</item>
+    </string-array>
+
+</resources>

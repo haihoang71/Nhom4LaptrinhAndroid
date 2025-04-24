@@ -1,62 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Expense Manager</string>
+    <string name="app_name">Quản lý chi tiêu</string>
     <string name="tab_expense">Chi tiêu</string>
     <string name="tab_income">Thu nhập</string>
-    <string name="balance">Thu chi</string>
+    <string name="balance">Số dư</string>
+    <string name="login">Đăng nhập</string>
+    <string name="email">Email</string>
+    <string name="password">Mật khẩu</string>
+    <string name="register">Đăng ký</string>
+    <string name="hint_date">Ngày</string>
+    <string name="cancel">Hủy</string>
+    <string name="click_to_login">Nhấn để đăng nhập</string>
+    <string name="click_to_register">Nhấn để đăng ký</string>
+    <string name="hint_expense_note">Ghi chú</string>
+    <string name="hint_expense_amount">Số tiền</string>
+    <string name="label_expense_paid">Đã trả</string>
+    <string name="category">Danh mục</string>
+    <string name="button_add_expense">Thêm</string>
     <string name="chart_tab_expense">Chi tiêu</string>
     <string name="chart_tab_income">Thu nhập</string>
-    <string name="chart_tab_balance">Thu chi</string>
+    <string name="chart_tab_balance">Số dư</string>
     <string name="chart_button_ok">OK</string>
-    <string name="cancel">Hủy</string>
-    <string name="category">Danh mục</string>
-    <string name="chart_amount_default">+0đ</string>
+    <string name="chart_amount_default">+0</string>
     <string name="chart_expense_default">Chi tiêu\n-0đ</string>
     <string name="chart_income_default">Thu nhập\n+0đ</string>
-    <string name="chart_balance_default">Thu chi\n+0đ</string>
+    <string name="chart_balance_default">Số dư\n+0đ</string>
     <string name="chart_prev">Trước</string>
-    <string name="chart_next">Sau</string>
-    <string name="login">Login</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="register">Register</string>
-    <string name="hint_date">Date</string>
-    <string name="click_to_login">Click to login</string>
-    <string name="click_to_register">Click to register</string>
-    <string name="hint_expense_name">Description</string>
-    <string name="hint_expense_amount">Amount</string>
-    <string name="label_expense_paid">Paid</string>
-    <string name="button_add_expense">Add</string>
-    <string name="expend">Expense</string>
-    <string name="income">Income</string>
-    <string name="edit_profile">Chỉnh sửa thông tin</string>
-    <string name="change_theme">Đổi màu</string>
-    <string name="change_language">Thay đổi ngôn ngữ</string>
+    <string name="chart_next">Tiếp</string>
+    <string name="expend">Chi tiêu</string>
+    <string name="income">Thu nhập</string>
     <string name="hello_user">Xin chào %1$s</string>
+    <string name="bntaddavatar">Tải ảnh đại diện</string>
+    <string name="full_name">Họ và tên</string>
+    <string name="birthdate">Ngày sinh</string>
+    <string name="bntsave">Lưu</string>
+    <string name="enterNewTransaction">Nhập giao dịch mới</string>
+
     <string-array name="expense_types">
-        <item>Income</item>
-        <item>Expense</item>
+        <item>Thu nhập</item>
+        <item>Chi tiêu</item>
     </string-array>
+
     <string-array name="income_categories">
-        <item>Salary</item>
-        <item>Bonus</item>
-        <item>Investment</item>
-        <item>Side Income</item>
-        <item>Other</item>
+        <item>Lương</item>
+        <item>Thưởng</item>
+        <item>Lãi đầu tư</item>
+        <item>Thu nhập phụ</item>
+        <item>Khác</item>
     </string-array>
+
     <string-array name="expend_categories">
-        <item>Food</item>
-        <item>Transport</item>
-        <item>Shopping</item>
-        <item>Entertainment</item>
-        <item>Bills</item>
-        <item>Other</item>
+        <item>Ăn uống</item>
+        <item>Đi lại</item>
+        <item>Mua sắm</item>
+        <item>Giải trí</item>
+        <item>Hóa đơn</item>
+        <item>Khác</item>
     </string-array>
+
     <string-array name="view_modes">
         <item>Ngày</item>
         <item>Tháng</item>
         <item>Năm</item>
     </string-array>
+
     <string-array name="months_array">
         <item>Th1</item>
         <item>Th2</item>
@@ -71,6 +78,18 @@
         <item>Th11</item>
         <item>Th12</item>
     </string-array>
+
     <string name="logout">Đăng xuất</string>
-    <string name="title_activity_login">Login</string>
+    <string name="title_activity_login">Đăng nhập</string>
+    <string name="edit_profile">Chỉnh sửa hồ sơ</string>
+    <string name="change_theme">Thay đổi giao diện</string>
+    <string name="change_language">Thay đổi ngôn ngữ</string>
+
+    <string name="choose_theme">Chọn giao diện</string>
+    <string-array name="theme_names">
+        <item>Giao diện Xanh Biển</item>
+        <item>Giao diện Xanh Lá</item>
+        <item>Giao diện Tím</item>
+        <item>Giao diện Cam</item>
+    </string-array>
 </resources>
