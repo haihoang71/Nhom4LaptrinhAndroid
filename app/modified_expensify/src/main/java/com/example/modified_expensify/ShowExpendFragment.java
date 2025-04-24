@@ -48,7 +48,10 @@ public class ShowExpendFragment extends Fragment {
         calendarView.setOnDateChangeListener((view1, year, month, dayOfMonth) -> {
             Calendar selectedDate = Calendar.getInstance();
             selectedDate.set(year, month, dayOfMonth);
-            this.date = dayOfMonth + "/" + (month + 1) + "/" + year;
+
+            String formattedDate = String.format(Locale.getDefault(), "%04d-%02d-%02d", year, month + 1, dayOfMonth);
+
+            this.date = formattedDate;
             loadExpenses(this.date);
         });
 

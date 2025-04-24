@@ -162,7 +162,8 @@ public class MainFragment extends Fragment {
         int todayDay = today.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog dialog = new DatePickerDialog(getContext(), (view, year, month, dayOfMonth) -> {
-            expendDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+            String formattedDate = String.format(Locale.getDefault(), "%04d-%02d-%02d", year, month + 1, dayOfMonth);
+            expendDate.setText(formattedDate);
         }, todayYear, todayMonth, todayDay);
         dialog.show();
     }
