@@ -92,4 +92,5 @@
         <item>Purple Theme</item>
         <item>Orange Theme</item>
     </string-array>
+    <string name="select_lang">Select language</string>
 </resources>

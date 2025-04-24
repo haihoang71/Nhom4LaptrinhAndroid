@@ -92,4 +92,5 @@
         <item>Giao diện Tím</item>
         <item>Giao diện Cam</item>
     </string-array>
+    <string name="select_lang">Chọn ngôn ngữ</string>
 </resources>

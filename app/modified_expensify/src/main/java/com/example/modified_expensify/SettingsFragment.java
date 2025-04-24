@@ -118,7 +118,7 @@ public class SettingsFragment extends Fragment {
     private void showLanguageDialog() {
         String[] langs = {"Tiếng Việt", "English", "日本語"};
         new android.app.AlertDialog.Builder(getContext())
-                .setTitle("Chọn ngôn ngữ")
+                .setTitle(R.string.select_lang)
                 .setItems(langs, (dialog, which) -> {
                     if (which == 0) setLocale("vi");
                     else if (which == 1) setLocale("en");

@@ -92,5 +92,6 @@
         <item>パープルテーマ</item>
         <item>オレンジテーマ</item>
     </string-array>
+    <string name="select_lang">ゲンゴセッテイ</string>
 
 </resources>
