@@ -53,7 +53,6 @@ public class AnalysisFragment extends Fragment {
     private TextView tvMonthYear, tvExpense, tvIncome, tvBalance;
     private Spinner spinnerViewMode;
     private ImageView btnPrev, btnNext;
-    private Button btnOK;
     private DBHelper dbHelper;
     private boolean isExpenseTab = true;
 
@@ -90,7 +89,6 @@ public class AnalysisFragment extends Fragment {
         spinnerViewMode = view.findViewById(R.id.spinnerViewMode);
         btnPrev = view.findViewById(R.id.btnPrev);
         btnNext = view.findViewById(R.id.btnNext);
-        btnOK = view.findViewById(R.id.btnOK);
 
         // Setup RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -151,7 +149,6 @@ public class AnalysisFragment extends Fragment {
             shiftDate(1);
             updateDateDisplay();
         });
-        btnOK.setOnClickListener(v -> loadChartData());
     }
 
     private void showDatePicker() {
@@ -276,15 +273,6 @@ public class AnalysisFragment extends Fragment {
                 return;
         }
 
-        Log.d("AnalysisDebug", "Query params: type=" + type +
-                ", date format=" + formattedDate);
-
-        if (cursor != null) {
-            Log.d("AnalysisDebug", "Cursor count: " + cursor.getCount());
-        } else {
-            Log.d("AnalysisDebug", "Cursor is null");
-        }
-
         // Cập nhật thông tin tổng thu/chi và số dư
         tvExpense.setText(String.format("%s\n-%,.0f", getString(R.string.tab_expense), isExpenseTab ? total : 0));
         tvIncome.setText(String.format("%s\n+%,.0f", getString(R.string.tab_income), isExpenseTab ? 0 : total));
@@ -341,13 +329,19 @@ public class AnalysisFragment extends Fragment {
                 combinedChart.getAxisRight().setEnabled(false);
                 combinedChart.invalidate();
             }
-        }
-    }
+        }else{
+            recyclerView.setAdapter(new CategoryExpenseAdapter(new ArrayList<>()));
 
-    // Handle navigation to other activities
-    private void navigateToActivity(Class<?> activityClass) {
-        startActivity(new Intent(requireContext(), activityClass));
-        requireActivity().overridePendingTransition(0, 0);
+            if (isExpenseTab) {
+                // Reset PieChart
+                pieChart.clear();
+                pieChart.invalidate();
+            } else {
+                // Reset CombinedChart (Bar)
+                combinedChart.clear();
+                combinedChart.invalidate();
+            }
+        }
     }
 
 }
