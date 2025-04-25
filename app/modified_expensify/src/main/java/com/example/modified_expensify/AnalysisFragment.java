@@ -278,6 +278,7 @@ public class AnalysisFragment extends Fragment {
         tvIncome.setText(String.format("%s\n+%,.0f", getString(R.string.tab_income), isExpenseTab ? 0 : total));
         tvBalance.setText(String.format("%s\n%s%,.0f", getString(R.string.balance), isExpenseTab ? "-" : "+", total));
 
+
         if (cursor != null && cursor.moveToFirst()) {
             List<CategoryExpenseAdapter.CategoryExpense> list = new ArrayList<>();
             List<PieEntry> pieEntries = new ArrayList<>();
