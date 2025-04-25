@@ -235,8 +235,8 @@ public class AnalysisFragment extends Fragment {
             pieChart.setVisibility(View.GONE);
             combinedChart.setVisibility(View.VISIBLE);
 
-            tvExpense.setVisibility(View.GONE);
-            tvBalance.setVisibility(View.GONE);
+            tvExpense.setVisibility(View.VISIBLE);
+            tvBalance.setVisibility(View.VISIBLE);
             tvIncome.setVisibility(View.VISIBLE);
         }
     }
@@ -246,6 +246,7 @@ public class AnalysisFragment extends Fragment {
         String type = isExpenseTab ? "OUT" : "IN";
         Cursor cursor = null;
         double total = 0;
+        double sizeTotal = 0;
 
         ExpenseDAO expenseDAO = new ExpenseDAO(requireContext());
         expenseDAO.open();
@@ -254,18 +255,24 @@ public class AnalysisFragment extends Fragment {
             case DAY:
                 formattedDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(currentCalendar.getTime());
                 total = expenseDAO.getTotalByTypeAndDate(type, formattedDate);
+                type = (!isExpenseTab) ? "OUT" : "IN";
+                sizeTotal = expenseDAO.getTotalByTypeAndDate(type, formattedDate);
                 cursor = isExpenseTab ? expenseDAO.getExpensesByDay(formattedDate) : expenseDAO.getIncomeByDay(formattedDate);
                 break;
 
             case MONTH:
                 formattedDate = new SimpleDateFormat("yyyy-MM", Locale.getDefault()).format(currentCalendar.getTime());
                 total = expenseDAO.getMonthlyTotalByType(type, formattedDate);
+                type = (!isExpenseTab) ? "OUT" : "IN";
+                sizeTotal = expenseDAO.getMonthlyTotalByType(type, formattedDate);
                 cursor = isExpenseTab ? expenseDAO.getExpensesByMonth(formattedDate) : expenseDAO.getIncomeByMonth(formattedDate);
                 break;
 
             case YEAR:
                 formattedDate = new SimpleDateFormat("yyyy", Locale.getDefault()).format(currentCalendar.getTime());
                 total = expenseDAO.getYearlyTotalByType(type, formattedDate);
+                type = (!isExpenseTab) ? "OUT" : "IN";
+                sizeTotal = expenseDAO.getYearlyTotalByType(type, formattedDate);
                 cursor = isExpenseTab ? expenseDAO.getExpensesByYear(formattedDate) : expenseDAO.getIncomeByYear(formattedDate);
                 break;
 
@@ -274,9 +281,9 @@ public class AnalysisFragment extends Fragment {
         }
 
         // Cập nhật thông tin tổng thu/chi và số dư
-        tvExpense.setText(String.format("%s\n-%,.0f", getString(R.string.tab_expense), isExpenseTab ? total : 0));
-        tvIncome.setText(String.format("%s\n+%,.0f", getString(R.string.tab_income), isExpenseTab ? 0 : total));
-        tvBalance.setText(String.format("%s\n%s%,.0f", getString(R.string.balance), isExpenseTab ? "-" : "+", total));
+        tvExpense.setText(String.format("%s\n-%,.0f", getString(R.string.tab_expense), isExpenseTab ? total : sizeTotal));
+        tvIncome.setText(String.format("%s\n+%,.0f", getString(R.string.tab_income), isExpenseTab ? sizeTotal : total));
+        tvBalance.setText(String.format("%s\n%,.0f", getString(R.string.balance), isExpenseTab ? sizeTotal - total : total - sizeTotal));
 
 
         if (cursor != null && cursor.moveToFirst()) {
